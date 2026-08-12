@@ -10,12 +10,11 @@ namespace volt{
 	///  A Simple Fixed Ring Buffer with arbitrary Data storage type.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    template<typename T>
+    template<typename T,std::size_t cap>
     class RingBuffer{
      public:
-     explicit RingBuffer(std::size_t capacity):cap(capacity){
-         data_ = static_cast<T*>(::operator new(capacity * sizeof(T));
-
+     RingBuffer(){
+   
      }
      ~RingBuffer() {
          clear();
@@ -26,9 +25,8 @@ namespace volt{
          if (full())
              throw std::overflow_error("RingBuffer is full");
 
-         std::construct_at(data_ + tail_, value);
-
-         tail_ = next(tail_);
+         data_[tail_] = value;
+         ++tail_
          ++size_;
      }
      void pop() {
@@ -40,6 +38,7 @@ namespace volt{
          head_ = next(head_);
          --size_;
      }
+     
      inline T front(){
 		 return data_[head_];
      }
@@ -57,51 +56,119 @@ namespace volt{
      }
 
      inline bool full() const {
-         return size_ == capacity_;
+         return size_ == cap;
      }
 
     inline std::size_t size() const {
          return size_;
      }
 
-     inline std::size_t capacity() const {
-         return capacity_;
-     }
+    static constexpr std::size_t capacity() noexcept {
+        return cap;
+    }
+    static constexpr std::size_t next(std::size_t index) noexcept {
+        return (index + 1) % cap;
+    }
+
+    static constexpr std::size_t previous(std::size_t index) noexcept {
+        return index == 0 ? cap - 1 : index - 1;
+    }
      private:
-         T* data_;
-         std::size_t capacity_;
-         std::size_t head_;
-         std::size_t tail_;
-         std::size_t size_;
-        
-    };
+         T data_[cap];
+         std::size_t head_ = 0;
+         std::size_t tail_ = 0;
+         std::size_t size_ = 0;
 
+         T* ptr(std::size_t index) noexcept {
+             return std::launder(
+                 reinterpret_cast<T*>(storage_) + index
+             );
+         }
 
-    class DynamicRingBufer {
+         const T* ptr(std::size_t index) const noexcept {
+             return std::launder(
+                 reinterpret_cast<const T*>(storage_) + index
+             );
+         }
+    }; 
+    template<typename T, std::size_t cap>
+    class RingBufferLogicalPop {
     public:
-        DynamicRingBufer(std::size_t inital_capcaity = 10):capacity_(inital_capcaity){
-			data_ = static_cast<T*>(::operator new(capacity_ * sizeof(T)));
+        RingBuffer() {
+
         }
-        ~DynamicRingBuffer() {
-            while (!empty())
-            {
+        ~RingBuffer() {
+            while (!empty()) {
+                std::destroy_at(data_ + head_);
+            }
+            ::operator delete(data_);
+        }
+
+        void push(T val) {
+            if (full())
+                throw std::overflow_error("RingBuffer is full");
+
+            data_[tail_] = value;
+            ++tail_
+                ++size_;
+        }
+        void pop() {
+            if (empty())
+                throw std::out_of_range("RingBuffer is empty");
+            --size_;
+            head_ = next(head_);
+        }
+
+        inline T front() {
+            return data_[head_];
+        }
+        inline T back() {
+            return data_[tail_];
+        }
+
+        void clear() {
+            while (size_ > 0) {
                 pop();
             }
         }
-
-        void pop() {
-
+        inline bool empty() const {
+            return size_ == 0;
         }
 
+        inline bool full() const {
+            return size_ == cap;
+        }
+
+        inline std::size_t size() const {
+            return size_;
+        }
+
+        static constexpr std::size_t capacity() noexcept {
+            return cap;
+        }
+        static constexpr std::size_t next(std::size_t index) noexcept {
+            return (index + 1) % cap;
+        }
+
+        static constexpr std::size_t previous(std::size_t index) noexcept {
+            return index == 0 ? cap - 1 : index - 1;
+        }
     private:
-        T* data_;
-		std::size_t capacity_;
-		std::size_t head_;
-		std::size_t tail_;
-		std::size_t size_;
+        T data_[cap];
+        std::size_t head_ = 0;
+        std::size_t tail_ = 0;
+        std::size_t size_ = 0;
 
-        
+        T* ptr(std::size_t index) noexcept {
+            return std::launder(
+                reinterpret_cast<T*>(storage_) + index
+            );
+        }
+
+        const T* ptr(std::size_t index) const noexcept {
+            return std::launder(
+                reinterpret_cast<const T*>(storage_) + index
+            );
+        }
     };
-
-    
 }
