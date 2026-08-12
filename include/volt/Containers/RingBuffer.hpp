@@ -6,6 +6,11 @@
 
 
 namespace volt{
+    inline constexpr std::size_t dynamic_extent =
+        static_cast<std::size_t>(-1);
+
+    template<typename T, std::size_t Capacity = dynamic_extent>
+    class RingBuffer;
 
     /// <summary>
 	///  A Simple Fixed Ring Buffer with arbitrary Data storage type.
@@ -97,7 +102,7 @@ std::size_t capacity() const noexcept {
     /// This Version creates object at runtime so use this carefully
     /// @tparam T 
     template<typename T>
-    class RingBuffer<T, 0> {
+    class RingBuffer<T, dynamic_extent> {
     public:
         explicit RingBuffer(std::size_t capacity)
             : capacity_(capacity)
