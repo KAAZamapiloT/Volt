@@ -1,2 +1,5 @@
 .gitignore
 struct.md
+.vs
+out
+bin
