@@ -7,28 +7,30 @@ project(Volt
 
 add_library(Volt INTERFACE)
 
-target_compile_features(Volt INTERFACE cxx_std_20)
+target_compile_features(Volt
+    INTERFACE
+        cxx_std_23
+)
 
 target_include_directories(Volt
     INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-option(VOLT_BUILD_EXAMPLES "Build Volt examples" ON)
+# Main executable
+add_executable(volt
+    main.cpp
+)
 
-if(VOLT_BUILD_EXAMPLES)
-    add_executable(volt_example
-        examples/basic.cpp
-    )
+target_link_libraries(volt
+    PRIVATE Volt
+)
 
-    target_link_libraries(volt_example
-        PRIVATE Volt
-    )
-endif()
-
+# Tests / benchmarks
 option(VOLT_BUILD_TESTS "Build Volt tests" ON)
 
 if(VOLT_BUILD_TESTS)
+
     enable_testing()
 
     add_executable(volt_tests
@@ -39,8 +41,14 @@ if(VOLT_BUILD_TESTS)
         PRIVATE Volt
     )
 
+    target_include_directories(volt_tests
+        PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests
+    )
+
     add_test(
         NAME volt_tests
         COMMAND volt_tests
     )
+
 endif()
