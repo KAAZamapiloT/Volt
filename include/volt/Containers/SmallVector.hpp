@@ -4,23 +4,17 @@
 #include <memory>
 #include<assert.h>
 namespace volt {
-    inline constexpr std::size_t dynamic_extent =
-        static_cast<std::size_t>(-1);
-    
-    template<typename T,usize initial_capacity = dynamic_extent>
-    class SmallVector;
 
 /// <summary>
-/// A Small Vector with fixed inital capacity bu resizable at runtime if needed.
+/// A Small Vector with fixed inital capacity but resizable at runtime if needed.
 /// </summary>
 /// <typeparam name="T"></typeparam>
 /// <typeparam name="initial_size"></typeparam>
-/// <typeparam name="max_size"></typeparam>
 template<typename T,usize initial_capacity>
 class SmallVector {
 public:
     SmallVector() :data_(inline_data()), capacity_(initial_capacity) {
-    
+		static_assert(initial_capacity > 0);
     }
     ~SmallVector() {
         clear();
@@ -57,7 +51,7 @@ public:
         std::destroy_at(data_ + size_ - 1);
         --size_;
     }
-     bool empty() noexcept {
+     bool empty() const noexcept {
 		 return size_ == 0;
      }
      void clear() noexcept {
@@ -90,6 +84,20 @@ public:
              reallocate(new_capacity);
          }
 	 }
+
+	 // safe access with bounds checking
+     T& at(usize index) {
+         if (index >= size_) {
+             throw std::out_of_range("SmallVector::at");
+         }
+         return data_[index];
+     }
+     const T& at(usize index) const {
+         if (index >= size_) {
+             throw std::out_of_range("SmallVector::at");
+         }
+         return data_[index];
+     }
 private:
     T* data_;
 	alignas(T) std::byte inline_storage[initial_capacity * sizeof(T)];
@@ -133,12 +141,7 @@ private:
     bool using_inline_storage() const noexcept {
         return data_ == inline_data();
     }
-    T& at(usize index) {
-        if (index >= size_) {
-            throw std::out_of_range("SmallVector::at");
-        }
-        return data_[index];
-    }
+    
 };
 
 }
