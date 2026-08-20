@@ -124,7 +124,7 @@ namespace volt{
 			return size() == Cap;
 		}
 
-		usize capacity() const noexcept {
+		inline usize capacity() const noexcept {
 			return Cap;
 		}
 		void clear() noexcept {

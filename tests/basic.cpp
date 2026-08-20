@@ -1,9 +1,11 @@
 
-#include<SPSCqueueStatic_test.hpp>
+
+#include<linearallocator_test.hpp>
+
 int main()
 {
 	
-	volt::tests::run_static_spsc_suite();
+	volt::tests::run_linear_allocator_suite();
 
     return 0;
 }

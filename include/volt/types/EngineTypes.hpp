@@ -19,5 +19,5 @@ namespace volt {
 	using Entity = u32;
 	using ComponentType = u32;
 	using ComponentMask = u64;
-	
+	using Marker = std::byte*;
 }
