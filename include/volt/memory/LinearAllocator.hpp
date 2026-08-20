@@ -7,7 +7,9 @@
 #include<volt/types/EngineTypes.hpp>
 
 namespace volt {
-
+	/// <summary>
+	/// A simple Linear allocator
+	/// </summary>
 	class LinearAllocator {
 	public:
 		LinearAllocator(void* memory, usize size) noexcept

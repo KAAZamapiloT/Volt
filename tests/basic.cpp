@@ -1,11 +1,5 @@
+#include "poolallocator_test.hpp"
 
-
-#include<linearallocator_test.hpp>
-
-int main()
-{
-	
-	volt::tests::run_linear_allocator_suite();
-
-    return 0;
+int main() {
+    return volt::tests::run_pool_allocator_suite();
 }

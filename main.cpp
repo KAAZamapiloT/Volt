@@ -1,8 +1,8 @@
 #include<iostream>
-
+#include"tests/poolallocator_test.hpp"
 int main()
 {
-    std::cout<<"HELLO WORLD";
+    volt::tests::run_pool_allocator_suite();
     return 0;
 }
 /*
