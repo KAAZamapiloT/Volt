@@ -4,6 +4,7 @@ int main()
 {
     volt::tests::run_pool_allocator_suite();
     return 0;
+    
 }
 /*
 
