@@ -13,6 +13,10 @@
 
 namespace volt{
 
+	/// <summary>
+	/// A array based salb allocator uses bitsets to track allocations
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	template<typename T>
 	class SlabAllocator {
         static constexpr std::size_t SlabCapacity = 64;
