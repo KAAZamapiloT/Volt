@@ -115,6 +115,57 @@ namespace volt {
 			
 			
 		}
+
+		void rotate_left(DataNode* x) {
+			DataNode* y = x->right;
+
+			
+			x->right = y->left;
+
+			if (y->left) {
+				y->left->parent = x;
+			}
+
+			y->parent = x->parent;
+
+			if (!x->parent) {
+				root_ = y;
+			}
+			else if (x == x->parent->left) {
+				x->parent->left = y;
+			}
+			else {
+				x->parent->right = y;
+			}
+
+			y->left = x;
+			x->parent = y;
+		}
+		
+		void rotate_right(DataNode* x) {
+			DataNode* y = x->left;
+			x->left = y->right;
+
+			if (x->right) {
+				y->right->parent = x;
+			}
+	
+
+			y->parent = x->parent;
+
+			if (!x->parent) {
+				root_ = y;
+			}
+			else if (x == x->parent->left) {
+				x->parent->left = y;
+			}
+			else {
+				x->parent->right= y;
+			}
+
+			y->right = x;
+			x->parent = y;
+		}
 	};
 
 }
