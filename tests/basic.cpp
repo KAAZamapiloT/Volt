@@ -1,12 +1,22 @@
 #include<Testmap.hpp>
+#include<volt/JobSystems/ThreadPool.hpp>
+
+void can(const std::string& S) {
+	std::cout << S << "\n";
+}
+
 
 int main()
 {
-    volt::test::run_correctness_tests();
+	volt::thread_pool pool(8);
 
-    volt::test::benchmark_mixed(
-        100'000,
-        2'000'000,
-        1'000'000
-    );
+	std::string s = "KK";
+
+	for (int i = 0; i < 8; ++i) {
+		s+= 'P';
+		pool.submit(can, s);
+	}
+
+	pool.shutdown();
+	
 }
