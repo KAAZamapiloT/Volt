@@ -219,7 +219,9 @@ namespace volt {
 
 			}
 			// not present insert it key
-			return V{};
+			V value{};
+			insert(key, value);
+			return value;
 		}
 		usize size() const
 		{
