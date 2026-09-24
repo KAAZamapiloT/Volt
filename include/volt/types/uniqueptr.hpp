@@ -8,18 +8,21 @@ namespace volt {
 		void operator()(T* ptr) const noexcept {
 			delete ptr;
 		}
+	};     
+
+	template<typename T,usize cap>
+		struct pool_deleter {
+
+		PoolAllocator<T,cap> allocator;
+			
+		
+
+			void operator()(T* ptr) const noexcept {
+				allocator.deallocate(ptr);
+			}
 	};
 
 
-
-	template<typename T>
-	struct pool_delete {
-		PoolAllocator* allocator;
-		void operator()(T* ptr) const noexcept {
-			allocator->deallocate(ptr);
-		}
-	};
-     
 	template<
 		typename T,
 		typename Deleter = default_delete<T>
@@ -93,6 +96,11 @@ namespace volt {
 	template<typename T, typename... Args>
 	unique_ptr<T> make_unique(Args&&... args) {
 		return unique_ptr<T>(new T(std::forward<Args>(args)...));
+	}
+
+	template<typename T,usize s>
+	PoolAllocator<T,s> make_pool_unique(size_t pool_size, size_t block_size) {
+		return PoolAllocator<T,s>(pool_size, block_size);
 	}
 
 	

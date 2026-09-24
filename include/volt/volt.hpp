@@ -8,6 +8,12 @@ public:
 volt(){
     
 }
+
 };
 
+template<typename K>
+class tlov {
+public:
+    tlov() = default;
+};
 }
