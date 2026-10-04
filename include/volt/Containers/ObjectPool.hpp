@@ -2,6 +2,7 @@
 #include<memory>
 #include<unordered_set>
 #include<set>
+#include<stdalign.h>
 #include<unordered_map>
 #include<volt/types/EngineTypes.hpp>
 #include<volt/types/uniqueptr.hpp>
@@ -18,7 +19,7 @@ namespace volt {
 	public:
 		explicit ObjectPool(usize s):size_(0),capacity_(s){
 			for(int i=0;i<capacity_;i++){
-				pool_[i] = ::operator new(sizeof(T),align_at_t(alignof(T));
+				pool_[i] = static_cast<T*>(::operator new(sizeof(T*)));
 				free_indices_.push_back(i);
 			}
 		};
@@ -30,13 +31,17 @@ namespace volt {
 		template<typename... Args>
 		T* allocate(Args&&...args) {
 
-			if (free_indices_.empty()) { return; }
+			if (free_indices_.empty()) { return nullptr; }
 			auto free_index = free_indices_.back();
 			free_indices_.pop_back();
-			pool_[free_index] = new(pool_ + free_index * sizeof(T)) T(std::forward<Args>(args)...);
+			T* ptr = new (pool_ + free_index)
+				T(std::forward<Args>(args)...);
+
 			++size_;
-			return pool_[free_index];
+
+			return ptr;
 		}
+
 		bool deallocate(T* obj) {
 
 			// validation
@@ -50,11 +55,12 @@ namespace volt {
 			int free_index = ocuupied_indicies_[obj];
 			ocuupied_indicies_.erase(obj);
 			free_indices_.insert(free_index);
+			
 			return true;
 		}
 
 	private:
-		usize size_;
+		usize size_=0;
 		usize capacity_;
 		std::byte* pool_;
 		std::unordered_map<T*,int> ocuupied_indicies_;
