@@ -3,11 +3,11 @@
 
 namespace volt{
     
-    class Entity{
-    public:
-        
-
-    private:
-        u32 Entity_id;
+   struct Entity {
+       u32 entityID;
+       u32 generation;
     };
+
+    
 }
+
