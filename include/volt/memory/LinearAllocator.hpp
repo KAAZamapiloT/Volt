@@ -53,14 +53,23 @@ namespace volt {
 			current_ = begin_;
 		}
 		usize used() const noexcept {
+			if (begin_ == nullptr) {
+				return 0;
+			}
 			return static_cast<usize>(current_ - begin_);
 
 		}
 		usize capacity() const noexcept {
+			if (begin_ == nullptr) {
+				return 0;
+			}
 			return static_cast<usize>(end_ - begin_);
 		}
 
 		usize remaining() const noexcept {
+			if (begin_ == nullptr) {
+				return 0;
+			}
 			return static_cast<usize>(end_ - current_);
 		}
 		Marker mark() const noexcept {

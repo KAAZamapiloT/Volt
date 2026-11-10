@@ -80,7 +80,7 @@ namespace volt {
 				if (reinterpret_cast<std::uintptr_t>(i) < reinterpret_cast<std::uintptr_t>(ptr)) {
 					i=i->left_children
 				}
-				else(reinterpret_cast<std::uintptr_t>(i)> reinterpret_cast<std::uintptr_t>(ptr)) {
+				else if(reinterpret_cast<std::uintptr_t>(i)> reinterpret_cast<std::uintptr_t>(ptr)) {
 					i=i->right_children
 				}
 			}

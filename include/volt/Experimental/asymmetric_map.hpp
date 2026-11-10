@@ -51,7 +51,7 @@ namespace volt {
 		asymmetric_map() {
 			root_ = nullptr;
 		}
-		asymmetric_map(const map& other)
+		asymmetric_map(const asymmetric_map& other)
 		{
 			root_ = clone_tree(other.root_, nullptr);
 			size_ = other.size_;
@@ -95,7 +95,7 @@ namespace volt {
 			clear();
 		}
 
-		void swap(map& other) noexcept
+		void swap(asymmetric_map& other) noexcept
 		{
 			std::swap(root_, other.root_);
 			std::swap(size_, other.size_);

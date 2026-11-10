@@ -26,7 +26,7 @@ target_link_libraries(volt
     PRIVATE Volt
 )
 
-# Tests / benchmarks
+# Tests
 option(VOLT_BUILD_TESTS "Build Volt tests" ON)
 
 if(VOLT_BUILD_TESTS)
@@ -49,6 +49,26 @@ if(VOLT_BUILD_TESTS)
     add_test(
         NAME volt_tests
         COMMAND volt_tests
+    )
+
+endif()
+
+# Benchmarks
+option(VOLT_BUILD_BENCHMARKS "Build Volt benchmarks" ON)
+
+if(VOLT_BUILD_BENCHMARKS)
+
+    add_executable(volt_benchmarks
+        benchmarks/main.cpp
+    )
+
+    target_link_libraries(volt_benchmarks
+        PRIVATE Volt
+    )
+
+    target_include_directories(volt_benchmarks
+        PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/benchmarks
     )
 
 endif()

@@ -9,7 +9,7 @@
 #include <utility>
 #include <list>
 #include<volt/types/EngineTypes.hpp>
-
+#include<array>
 
 namespace volt {
 	
@@ -29,7 +29,12 @@ namespace volt {
 
 		BuddyAllocator() {
 
-			m_memory = static_cast<std::byte*>(::operator new(MaxBlockSize), std::align_val_t{ MaxBlockSize });
+			m_memory = static_cast<std::byte*>(
+				::operator new(
+					MaxBlockSize,
+					std::align_val_t{ MaxBlockSize }
+					)
+				);
 
 			auto* block = reinterpret_cast<FreeBlock*>(m_memory);
 
@@ -59,40 +64,110 @@ namespace volt {
 			if (target >= NumOrders)
 				return nullptr;
 
-			usize order = find_order(target);
+			usize order = find_available_order(target);
 
 			if (order == NumOrders)
 				return nullptr;
 
 			FreeBlock* block = pop(order);
 
-			while (order > target)
-			{
-				--order;
+			if (block == nullptr) {
+			return nullptr;
+		     }
 
-				auto* buddy =
-					reinterpret_cast<FreeBlock*>(
-						reinterpret_cast<std::byte*>(block)
-						+ block_size(order)
-						);
+			block - split_block(block, order, target);
 
-				push(order, buddy);
-			}
+			const usize offset = static_cast<usize>(
+				reinterpret_cast<std::byte*>(block) - m_memory
+				);
+
+			const usize first = offset / MinBlockSize;
+			const usize blockCount = block_size(target) / MinBlockSize;
+
+			m_allocOrder[first] = static_cast<std::int8_t>(target);
+
+			for (usize i = 1; i < blockCount; ++i)
+				m_allocOrder[first + i] = AllocationInterior;
 
 			return block;
-		}
-		void deallocate(void* ptr) {
-			if (!ptr) {
-				return;
-			}
-			std::destroy_at(ptr);
+			
 		}
 
+		void deallocate(void* ptr) noexcept {
+			if (ptr == nullptr)
+				return;
+
+			const auto address = reinterpret_cast<std::uintptr_t>(ptr);
+			const auto base = reinterpret_cast<std::uintptr_t>(m_memory);
+
+			if (address < base || address - base >= MaxBlockSize) {
+				assert(false && "Pointer is outside BuddyAllocator arena");
+				return;
+			}
+
+			const usize offset = static_cast<usize>(address - base);
+
+
+			if (offset % MinBlockSize != 0) {
+				assert(false && "Pointer is not a block boundary");
+				return;
+			}
+
+			const usize index = offset / MinBlockSize;
+			const std::int8_t recordedOrder = m_allocOrder[index];
+
+			if (recordedOrder < 0 ||
+				static_cast<usize>(recordedOrder) >= NumOrders) {
+				assert(false && "Invalid or already freed allocation");
+				return;
+			}
+
+			usize order = static_cast<usize>(recordedOrder);
+			usize currentOffset = offset;
+
+			const usize blockCount = block_size(order) / MinBlockSize;
+
+			for (usize i = 0; i < blockCount; ++i)
+				m_allocOrder[index + i] = NotAllocated;
+
+			while (order < NumOrders - 1) {
+				const usize buddyOffset =
+					currentOffset ^ block_size(order);
+
+				auto* buddyAddress = m_memory + buddyOffset;
+
+				FreeBlock* buddy = find_free_block(
+					order,
+					buddyAddress
+				);
+
+				if (buddy == nullptr)
+					break;
+
+				remove_free(order, buddy);
+
+				if (buddyOffset < currentOffset)
+					currentOffset = buddyOffset;
+
+				++order;
+			}
+
+			auto* mergedBlock = reinterpret_cast<FreeBlock*>(
+				m_memory + currentOffset
+				);
+
+			push_free(order, mergedBlock);
+		}
 
 		FreeBlock* split_block(
 			FreeBlock* block,
 			usize& current_order,
 			usize target_order) noexcept {
+
+			assert(block != nullptr);
+			assert(current_order < NumOrders);
+			assert(target_order <= current_order);
+
 
 			while (current_order > target_order)
 			{
@@ -119,6 +194,14 @@ namespace volt {
 			std::bit_width(MaxBlockSize / MinBlockSize);
 		std::byte* m_memory = nullptr;
 
+		static constexpr usize NumMinBlocks =
+			MaxBlockSize / MinBlockSize;
+
+		static constexpr std::int8_t NotAllocated = -1;
+		static constexpr std::int8_t AllocationInterior = -2;
+
+		std::array<std::int8_t, NumMinBlocks> m_allocOrder{};
+
 		FreeBlock* m_freeLists[NumOrders]{};
 
 		constexpr usize block_size(usize order) const noexcept
@@ -130,6 +213,9 @@ namespace volt {
 			if (size <= MinBlockSize)
 				return 0;
 
+			if (size > MaxBlockSize) {
+				return NumOrders;
+			}
 			const usize blocks =
 				(size + MinBlockSize - 1) / MinBlockSize;
 
@@ -165,13 +251,42 @@ namespace volt {
 		}
 		usize find_available_order(usize wanted) const noexcept {
 
-			for (int order = wanted; wanted < NumOrders; ++order) {
-				if (m_freeLists[order]) {
+			for (int order = wanted; order< NumOrders; ++order) {
+				if (m_freeLists[order]!=nullptr) {
 					return order;
 				}
 			}
 
 			return NumOrders;
+		}
+
+		FreeBlock* pop(usize order) {
+			if (order >= NumOrders) {
+				return nullptr;
+			}
+			FreeBlock* block = m_freeLists[order];
+
+			if (block != nullptr) {
+				remove_free(order, block);
+			}
+			return block;
+		}
+
+		FreeBlock* find_free_block(
+			usize order,
+			const void* address
+		) noexcept {
+			if (order >= NumOrders)
+				return nullptr;
+
+			for (FreeBlock* block = m_freeLists[order];
+				block != nullptr;
+				block = block->next) {
+				if (static_cast<const void*>(block) == address)
+					return block;
+			}
+
+			return nullptr;
 		}
 	};
 }

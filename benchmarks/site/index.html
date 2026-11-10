@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volt Systems — Verified Benchmark Suite</title>
+    <!-- Chart.js for interactive visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Load live benchmark results directly (works over file:// protocol without CORS errors) -->
+    <script src="results.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #21262d;
+            --border: #30363d;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --accent-cyan: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #bc8cff;
+            --accent-orange: #f0883e;
+            --accent-red: #f85149;
+            --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.5;
+            padding: 24px;
+        }
+
+        header {
+            max-width: 1300px;
+            margin: 0 auto 28px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 18px;
+        }
+
+        .logo-title h1 {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+        }
+
+        .badge-verified {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(63, 185, 80, 0.2);
+            color: var(--accent-green);
+            border: 1px solid rgba(63, 185, 80, 0.4);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            border-color: var(--accent-cyan);
+            background: #2d333b;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 26px;
+        }
+
+        /* Banner */
+        .notice-banner {
+            background: rgba(88, 166, 255, 0.08);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notice-banner code {
+            font-family: var(--font-mono);
+            background: var(--bg-card);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            color: var(--accent-cyan);
+        }
+
+        /* Stat highlights */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 18px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent-cyan);
+        }
+
+        .stat-card.green::before { background: var(--accent-green); }
+        .stat-card.purple::before { background: var(--accent-purple); }
+        .stat-card.orange::before { background: var(--accent-orange); }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 700;
+            margin-top: 4px;
+            color: #fff;
+            font-family: var(--font-mono);
+        }
+
+        .stat-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Chart Sections */
+        .section-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(560px, 1fr));
+            gap: 20px;
+        }
+
+        .chart-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 16px;
+        }
+
+        .chart-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .chart-unit {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .chart-box {
+            position: relative;
+            height: 270px;
+        }
+
+        /* Data table */
+        .table-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--text-muted);
+            padding: 12px 16px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--font-mono);
+            vertical-align: top;
+        }
+
+        .methodology-cell {
+            font-family: var(--font-sans);
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .pill-speedup {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+        }
+
+        .pill-base {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            background: rgba(139, 148, 158, 0.15);
+            color: var(--text-muted);
+        }
+
+        /* Drop zone */
+        .dropzone {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .dropzone:hover, .dropzone.dragover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            background: rgba(88, 166, 255, 0.04);
+        }
+
+        footer {
+            max-width: 1300px;
+            margin: 40px auto 10px auto;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-title">
+            <h1>⚡ Volt Benchmarking Hub <span class="badge-verified">Verified Metrics</span></h1>
+            <p class="subtitle">Hardware-tested performance benchmarks with memory payload writes & checksum verification</p>
+        </div>
+        <div class="header-actions">
+            <label class="btn" for="json-input">📂 Load results.json</label>
+            <input type="file" id="json-input" accept=".json" style="display:none;" />
+            <button class="btn" id="reload-btn">🔄 Reload</button>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="notice-banner" id="status-banner">
+            <span>ℹ️ <strong>Status:</strong> Initializing live benchmark data...</span>
+            <span id="timestamp-badge" style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);"></span>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="stats-grid">
+            <div class="stat-card green">
+                <div class="stat-label">SPSC Lock-Free Speedup</div>
+                <div class="stat-value" id="spsc-speedup">--</div>
+                <div class="stat-sub">vs Mutex Queue (Core-Pinned)</div>
+            </div>
+            <div class="stat-card purple">
+                <div class="stat-label">SmallVector SBO (N=8)</div>
+                <div class="stat-value" id="sbo-speedup">--</div>
+                <div class="stat-sub">Stack buffer vs Heap malloc</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Linear Allocator Peak</div>
+                <div class="stat-value" id="peak-alloc-mops">--</div>
+                <div class="stat-sub">Full Lifecycle (Alloc + O(1) Reset)</div>
+            </div>
+            <div class="stat-card orange">
+                <div class="stat-label">Pool Fragmented Churn</div>
+                <div class="stat-value" id="pool-speedup">--</div>
+                <div class="stat-sub">Slot reuse vs new/delete</div>
+            </div>
+        </div>
+
+        <!-- Dropzone for custom results -->
+        <div class="dropzone" id="drop-area">
+            📥 Drag and drop your generated <code>results.json</code> file here if you want to inspect a different benchmark run.
+        </div>
+
+        <!-- Allocators Section -->
+        <div>
+            <h2 class="section-title">🧠 Memory Allocators (Payload Written & Checksummed)</h2>
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <span class="chart-title">Allocation Throughput (Higher is better)</span>
+                        <span class="chart-unit">Million Ops / sec</span>
+                    </div>
+                    <div class="chart-box">
+                        <canvas id="allocThroughputChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <span class="chart-title">Allocation Latency p50 (Lower is better)</span>
+                        <span class="chart-unit">Nanoseconds / op</span>
+                    </div>
+                    <div class="chart-box">
+                        <canvas id="allocLatencyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Containers Section -->
+        <div>
+            <h2 class="section-title">📦 Concurrent & High-Performance Containers</h2>
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <span class="chart-title">Container Throughput (Higher is better)</span>
+                        <span class="chart-unit">Million Ops / sec</span>
+                    </div>
+                    <div class="chart-box">
+                        <canvas id="containerThroughputChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <span class="chart-title">SPSC Multi-Threaded Producer-Consumer (Core-Pinned)</span>
+                        <span class="chart-unit">Million Ops / sec</span>
+                    </div>
+                    <div class="chart-box">
+                        <canvas id="spscThreadChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Detailed Table -->
+        <div>
+            <h2 class="section-title">📊 Detailed Audit Table (Methodology & Integrity Checks)</h2>
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Benchmark & Workload</th>
+                            <th>Operations</th>
+                            <th>p50 Latency</th>
+                            <th>p99 Latency</th>
+                            <th>Throughput</th>
+                            <th>Bandwidth</th>
+                            <th>Speedup vs Baseline</th>
+                        </tr>
+                    </thead>
+                    <tbody id="metrics-table-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        Volt C++23 Header-Only Systems Library • Believable Systems Benchmark Specification
+    </footer>
+
+    <script>
+        let charts = {};
+
+        function renderDashboard(data) {
+            if (!data || !data.results || data.results.length === 0) return;
+            const results = data.results;
+
+            // Status Banner
+            document.getElementById("status-banner").innerHTML = `
+                <span>✅ <strong>Live Benchmark Active:</strong> Loaded results from your hardware run.</span>
+                <span style="font-family:var(--font-mono);font-size:12px;color:var(--accent-green);font-weight:600;">Run Timestamp: ${data.timestamp || 'Live'}</span>
+            `;
+
+            // 1. Update Highlights
+            const spsc2Thread = results.find(r => r.name.includes("SPSCQueueStatic 2-thread"));
+            if (spsc2Thread) {
+                document.getElementById("spsc-speedup").textContent = `${spsc2Thread.speedup_vs_baseline.toFixed(1)}x`;
+            }
+
+            const sbo = results.find(r => r.name.includes("SmallVector") && r.name.includes("SBO"));
+            if (sbo) {
+                document.getElementById("sbo-speedup").textContent = `${sbo.speedup_vs_baseline.toFixed(1)}x`;
+            }
+
+            const linear = results.find(r => r.name.includes("LinearAllocator"));
+            if (linear) {
+                document.getElementById("peak-alloc-mops").textContent = `${linear.mops_per_sec.toFixed(0)} M`;
+            }
+
+            const pool = results.find(r => r.name.includes("PoolAllocator"));
+            if (pool) {
+                document.getElementById("pool-speedup").textContent = `${pool.speedup_vs_baseline.toFixed(1)}x`;
+            }
+
+            // 2. Populate Table
+            const tbody = document.getElementById("metrics-table-body");
+            tbody.innerHTML = "";
+            results.forEach(r => {
+                const tr = document.createElement("tr");
+                const speedupHtml = r.speedup_vs_baseline > 1.05 
+                    ? `<span class="pill-speedup">${r.speedup_vs_baseline.toFixed(2)}x faster</span>` 
+                    : (r.name.includes("baseline") ? `<span class="pill-base">baseline</span>` : `${r.speedup_vs_baseline.toFixed(2)}x`);
+
+                const bandwidthText = (r.gib_per_sec > 0.0) ? `${r.gib_per_sec.toFixed(2)} GiB/s` : `-`;
+
+                tr.innerHTML = `
+                    <td>
+                        <div style="color:#fff;font-weight:600">${r.name}</div>
+                        <div class="methodology-cell">${r.methodology || ''}</div>
+                    </td>
+                    <td>${r.operations.toLocaleString()}</td>
+                    <td>${r.p50_ns_per_op.toFixed(2)} ns</td>
+                    <td>${r.p99_ns_per_op.toFixed(2)} ns</td>
+                    <td style="color:var(--accent-cyan)">${r.mops_per_sec.toFixed(1)} Mops/s</td>
+                    <td>${bandwidthText}</td>
+                    <td>${speedupHtml}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // 3. Render Charts
+            renderCharts(results);
+        }
+
+        function renderCharts(results) {
+            Object.values(charts).forEach(c => c.destroy());
+
+            // Allocators
+            const allocResults = results.filter(r => r.category.includes("Allocator"));
+            const allocLabels = allocResults.map(r => r.name.replace(" (baseline)", ""));
+            const allocMops = allocResults.map(r => r.mops_per_sec);
+            const allocLat = allocResults.map(r => r.p50_ns_per_op);
+            const allocColors = allocResults.map(r => r.name.includes("volt::") ? "#3fb950" : "#58a6ff");
+
+            charts.allocThroughput = new Chart(document.getElementById("allocThroughputChart"), {
+                type: "bar",
+                data: {
+                    labels: allocLabels,
+                    datasets: [{
+                        label: "Throughput (Mops/s)",
+                        data: allocMops,
+                        backgroundColor: allocColors,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: "#30363d" }, ticks: { color: "#8b949e" } },
+                        x: { grid: { display: false }, ticks: { color: "#8b949e", font: { size: 10 } } }
+                    }
+                }
+            });
+
+            charts.allocLatency = new Chart(document.getElementById("allocLatencyChart"), {
+                type: "bar",
+                data: {
+                    labels: allocLabels,
+                    datasets: [{
+                        label: "p50 Latency (ns/op)",
+                        data: allocLat,
+                        backgroundColor: allocResults.map(r => r.name.includes("volt::") ? "#bc8cff" : "#f0883e"),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: "#30363d" }, ticks: { color: "#8b949e" } },
+                        x: { grid: { display: false }, ticks: { color: "#8b949e", font: { size: 10 } } }
+                    }
+                }
+            });
+
+            // Containers Throughput
+            const contResults = results.filter(r => !r.category.includes("Allocator") && !r.name.includes("2-thread"));
+            charts.containerThroughput = new Chart(document.getElementById("containerThroughputChart"), {
+                type: "bar",
+                data: {
+                    labels: contResults.map(r => r.name.replace(" (baseline)", "")),
+                    datasets: [{
+                        label: "Throughput (Mops/s)",
+                        data: contResults.map(r => r.mops_per_sec),
+                        backgroundColor: contResults.map(r => r.name.includes("volt::") ? "#3fb950" : "#58a6ff"),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: "#30363d" }, ticks: { color: "#8b949e" } },
+                        x: { grid: { display: false }, ticks: { color: "#8b949e", font: { size: 10 } } }
+                    }
+                }
+            });
+
+            // Multi-thread SPSC Throughput
+            const spscThreadResults = results.filter(r => r.name.includes("2-thread"));
+            charts.spscThread = new Chart(document.getElementById("spscThreadChart"), {
+                type: "bar",
+                data: {
+                    labels: spscThreadResults.map(r => r.name.replace(" (baseline)", "")),
+                    datasets: [{
+                        label: "Throughput (Mops/s)",
+                        data: spscThreadResults.map(r => r.mops_per_sec),
+                        backgroundColor: spscThreadResults.map(r => r.name.includes("volt::") ? "#3fb950" : "#f85149"),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: "#30363d" }, ticks: { color: "#8b949e" } },
+                        x: { grid: { display: false }, ticks: { color: "#8b949e", font: { size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        // File drop & load logic
+        const dropArea = document.getElementById("drop-area");
+        const jsonInput = document.getElementById("json-input");
+
+        ["dragenter", "dragover"].forEach(evt => {
+            dropArea.addEventListener(evt, e => { e.preventDefault(); dropArea.classList.add("dragover"); });
+        });
+        ["dragleave", "drop"].forEach(evt => {
+            dropArea.addEventListener(evt, e => { e.preventDefault(); dropArea.classList.remove("dragover"); });
+        });
+
+        dropArea.addEventListener("drop", e => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) loadFile(files[0]);
+        });
+
+        jsonInput.addEventListener("change", e => {
+            if (e.target.files.length > 0) loadFile(e.target.files[0]);
+        });
+
+        document.getElementById("reload-btn").addEventListener("click", () => {
+            if (window.LIVE_BENCHMARK_RESULTS) {
+                renderDashboard(window.LIVE_BENCHMARK_RESULTS);
+            }
+        });
+
+        function loadFile(file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    renderDashboard(parsed);
+                } catch (err) {
+                    alert("Invalid JSON format in file: " + err.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Auto-load logic: Prioritize window.LIVE_BENCHMARK_RESULTS (avoids file:// CORS block)
+        window.addEventListener("DOMContentLoaded", () => {
+            if (window.LIVE_BENCHMARK_RESULTS) {
+                renderDashboard(window.LIVE_BENCHMARK_RESULTS);
+            } else {
+                fetch("results.json")
+                    .then(res => res.json())
+                    .then(data => renderDashboard(data))
+                    .catch(() => {
+                        console.log("No automatic results.json loadable via fetch; awaiting file drop.");
+                    });
+            }
+        });
+    </script>
+</body>
+</html>

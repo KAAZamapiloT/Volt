@@ -2,10 +2,11 @@
 #include<volt/types/EngineTypes.hpp>
 #include <utility>
 #include <memory>
+#include<atomic>
+#include<algorithm>
 #include<assert.h>
-
+#include<span>
 namespace volt{
-
 
 	/// <summary>
 	/// A SPSC queue accepts only Power of two size

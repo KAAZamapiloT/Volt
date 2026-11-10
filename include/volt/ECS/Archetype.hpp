@@ -28,10 +28,18 @@ struct EntityRecord{
 Archetype* archetype;
 u32 row;
 u32 generation;
+bool alive = true;
 };
     class Archetype {
 
+		inline ComponentMask getComponentMask() const {
+			return componentMask;
+		}
 
+		template<typename T>
+        inline ComponentMask getComponentMask() {
+			return componentMask{ 1 } << GetComponentType<T>();
+        }
         private:
         std::vector<Entity> entities;
         ComponentMask componentMask;

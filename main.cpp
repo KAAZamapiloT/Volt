@@ -8,6 +8,10 @@ int main()
 
 	std::cout << "std::unique_ptr: " << *str_ptr << std::endl;
 	std::cout << "volt::unique_ptr: " << *volt_str_ptr << std::endl;
+
+
+	volt::unique_ptr<std::string> mmm = std::move(volt_str_ptr);
+	std::cout << "volt::mmm: " << *mmm << std::endl;
     return 0;
     
 }
