@@ -396,10 +396,12 @@ function setupAssemblyInspector() {
 function highlightAsmKeyInstruction() {
   const callout = document.getElementById("mask-speech-bubble");
   if (callout) {
-    callout.classList.add("screentone-dense");
+    callout.style.transform = "translate(-2px, -2px)";
+    callout.style.boxShadow = "12px 12px 0px var(--ink)";
     setTimeout(() => {
-      callout.classList.remove("screentone-dense");
-    }, 600);
+      callout.style.transform = "none";
+      callout.style.boxShadow = "var(--shadow-brutal)";
+    }, 400);
   }
 }
 
