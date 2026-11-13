@@ -1,0 +1,14 @@
+.git
+.vs/
+build/
+out/
+bin/
+*.obj
+*.o
+*.exe
+*.pdb
+*.ilk
+*.s
+tests/
+benchmarks/Allocators/
+benchmarks/Containers/

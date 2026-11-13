@@ -1,0 +1,886 @@
+/* ==========================================================================
+   VOLT C++23 SYSTEMS DOCUMENTATION — 1-BIT MONOCHROME MANGA BRUTALISM
+   Strict Palette: #000000 (Pure Ink Black) & #FFFFFF (Pure Paper White)
+   Halftone Screentones: High-DPI CSS Radial Gradients & Inline SVG Patterns
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --ink: #000000;
+  --paper: #ffffff;
+  
+  --font-header: 'Anton', Impact, 'Arial Black', sans-serif;
+  --font-body: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --border-thick: 4px solid var(--ink);
+  --border-medium: 3px solid var(--ink);
+  --border-thin: 2px solid var(--ink);
+  --border-hairline: 1px solid var(--ink);
+
+  --shadow-brutal: 8px 8px 0px var(--ink);
+  --shadow-brutal-sm: 4px 4px 0px var(--ink);
+  --shadow-brutal-lg: 12px 12px 0px var(--ink);
+  --shadow-active: 2px 2px 0px var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   RESET & SYSTEM DEFAULTS
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 !important; /* Zero roundness for pure Manga Brutalism */
+}
+
+html {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   MANGA HALFTONE SCREENTONES
+   High-DPI 1-Bit Dot Matrices
+   -------------------------------------------------------------------------- */
+.screentone {
+  background-image: radial-gradient(var(--ink) 1.25px, transparent 1.25px);
+  background-size: 6px 6px;
+  background-color: var(--paper);
+}
+
+.screentone-dense {
+  background-image: radial-gradient(var(--ink) 1.5px, transparent 1.5px);
+  background-size: 4px 4px;
+  background-color: var(--paper);
+}
+
+.screentone-heavy {
+  background-image: radial-gradient(var(--ink) 2px, transparent 2px);
+  background-size: 4px 4px;
+  background-color: var(--paper);
+}
+
+.screentone-crosshatch {
+  background-image: 
+    repeating-linear-gradient(45deg, var(--ink) 0, var(--ink) 1.5px, transparent 0, transparent 6px),
+    repeating-linear-gradient(-45deg, var(--ink) 0, var(--ink) 1.5px, transparent 0, transparent 6px);
+  background-color: var(--paper);
+}
+
+.screentone-stripes {
+  background-image: repeating-linear-gradient(45deg, var(--ink) 0, var(--ink) 2px, transparent 0, transparent 8px);
+  background-color: var(--paper);
+}
+
+/* --------------------------------------------------------------------------
+   TYPOGRAPHY
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, .panel-title, .manga-heading {
+  font-family: var(--font-header);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.heading-inverted {
+  background: var(--ink);
+  color: var(--paper);
+  display: inline-block;
+  padding: 4px 12px;
+  font-family: var(--font-header);
+  font-size: 1.35rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.badge-manga {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border: var(--border-thin);
+  background: var(--paper);
+  color: var(--ink);
+  letter-spacing: 0.05em;
+}
+
+.badge-manga.inverted {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* --------------------------------------------------------------------------
+   LAYOUT ARCHITECTURE: APP SHELL & SIDEBAR
+   -------------------------------------------------------------------------- */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Sidebar (Left Chapter Index) */
+.sidebar {
+  width: 320px;
+  min-width: 320px;
+  background: var(--paper);
+  border-right: var(--border-thick);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.sidebar-header {
+  padding: 24px;
+  border-bottom: var(--border-thick);
+  background: var(--paper);
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.brand-title {
+  font-family: var(--font-header);
+  font-size: 3rem;
+  line-height: 0.9;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.brand-tagline {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-top: var(--border-thin);
+  padding-top: 6px;
+  margin-top: 6px;
+}
+
+.chapter-nav {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.nav-item {
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 12px 14px;
+  border: var(--border-medium);
+  background: var(--paper);
+  box-shadow: var(--shadow-brutal-sm);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.08s ease;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--ink);
+}
+
+.nav-item:active, .nav-item.active {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-active);
+}
+
+.nav-item.active .nav-subtext {
+  color: var(--paper);
+}
+
+.nav-number {
+  font-family: var(--font-header);
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+.nav-title {
+  font-family: var(--font-header);
+  font-size: 1.4rem;
+  display: block;
+  line-height: 1.1;
+  margin-top: 2px;
+}
+
+.nav-subtext {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  display: block;
+  margin-top: 4px;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: var(--border-thick);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  max-width: calc(100vw - 320px);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* --------------------------------------------------------------------------
+   BRUTALIST MANGA PANELS & STRIPS
+   -------------------------------------------------------------------------- */
+.panel {
+  border: var(--border-thick);
+  background: var(--paper);
+  box-shadow: var(--shadow-brutal);
+  padding: 28px;
+  position: relative;
+}
+
+.panel-header-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-bottom: var(--border-medium);
+  padding-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.panel-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.panel-number {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-header);
+  font-size: 1.1rem;
+  padding: 4px 10px;
+  line-height: 1;
+}
+
+.panel-main-title {
+  font-size: 1.8rem;
+  font-family: var(--font-header);
+  letter-spacing: 0.03em;
+}
+
+.panel-strip-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 1100px) {
+  .panel-strip-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.manga-subpanel {
+  border: var(--border-medium);
+  background: var(--paper);
+  box-shadow: var(--shadow-brutal-sm);
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.subpanel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: var(--border-thin);
+  padding-bottom: 8px;
+}
+
+.subpanel-tag {
+  font-family: var(--font-header);
+  font-size: 1.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   VECTOR DIAGRAMS (HIGH-DPI SVGS)
+   -------------------------------------------------------------------------- */
+.svg-diagram-wrapper {
+  width: 100%;
+  border: var(--border-thin);
+  background: var(--paper);
+  padding: 12px;
+  margin: 12px 0;
+  overflow-x: auto;
+}
+
+svg.manga-vector {
+  display: block;
+  width: 100%;
+  height: auto;
+  shape-rendering: geometricPrecision;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Sound Effect / Action SFX Badges */
+.sfx-bubble {
+  border: var(--border-thin);
+  padding: 4px 10px;
+  font-family: var(--font-header);
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  background: var(--paper);
+  color: var(--ink);
+  display: inline-block;
+  margin: 6px 0;
+  box-shadow: 3px 3px 0px var(--ink);
+}
+
+.sfx-bubble.critical {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* --------------------------------------------------------------------------
+   MANGA SPEECH BUBBLE WITH DIRECTIONAL TAIL
+   -------------------------------------------------------------------------- */
+.manga-speech-bubble {
+  position: relative;
+  background: var(--paper);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-brutal-sm);
+  padding: 16px 20px;
+  margin: 20px 0 28px 0;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.manga-speech-bubble strong {
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.speech-bubble-tail {
+  position: absolute;
+  bottom: -18px;
+  left: 40px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 18px solid var(--ink);
+}
+
+.speech-bubble-tail::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 14px solid var(--paper);
+}
+
+/* --------------------------------------------------------------------------
+   ASSEMBLY & CODE INSPECTOR
+   -------------------------------------------------------------------------- */
+.inspector-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+@media (max-width: 1024px) {
+  .inspector-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.code-box {
+  border: var(--border-medium);
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+}
+
+.code-box-header {
+  background: var(--paper);
+  border-bottom: var(--border-medium);
+  padding: 8px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.code-box-title {
+  font-family: var(--font-header);
+  font-size: 1.1rem;
+}
+
+.code-pre {
+  margin: 0;
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: auto;
+  flex: 1;
+  white-space: pre;
+}
+
+.code-line {
+  display: block;
+  padding: 1px 4px;
+  transition: background-color 0.1s ease;
+}
+
+.code-line.highlight {
+  background-color: var(--ink);
+  color: var(--paper);
+  font-weight: 700;
+}
+
+.code-line.highlight .hl-keyword,
+.code-line.highlight .hl-type,
+.code-line.highlight .hl-comment {
+  color: var(--paper);
+}
+
+/* 1-Bit Code Syntax Embellishments */
+.hl-keyword { font-weight: 800; text-decoration: underline; }
+.hl-type { font-weight: 700; }
+.hl-atomic { font-weight: 800; border-bottom: 2px dashed var(--ink); }
+.hl-comment { font-style: italic; opacity: 0.85; }
+.hl-asm-mnemonic { font-weight: 800; text-transform: uppercase; }
+.hl-asm-reg { font-weight: 700; }
+.hl-asm-imm { border-bottom: 1px solid var(--ink); }
+
+/* Assembly Editor / Slot */
+.asm-editable-slot {
+  width: 100%;
+  min-height: 380px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  padding: 16px;
+  border: none;
+  resize: vertical;
+  background: var(--paper);
+  color: var(--ink);
+  outline: none;
+  white-space: pre;
+}
+
+.asm-editable-slot:focus {
+  background: var(--paper);
+  outline: 2px solid var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   VERIFIABLE BENCHMARK TABLE & TELEMETRY
+   -------------------------------------------------------------------------- */
+.guardrail-alert {
+  border: var(--border-thick);
+  background: var(--paper);
+  padding: 18px 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-brutal-sm);
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.guardrail-icon {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-header);
+  font-size: 1.6rem;
+  padding: 6px 14px;
+  line-height: 1;
+}
+
+.guardrail-text h4 {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.guardrail-text p {
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.benchmark-table-wrapper {
+  overflow-x: auto;
+  border: var(--border-thick);
+  margin-top: 16px;
+  box-shadow: var(--shadow-brutal-sm);
+}
+
+.benchmark-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-align: left;
+  background: var(--paper);
+}
+
+.benchmark-table th {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 16px;
+  font-family: var(--font-header);
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--ink);
+}
+
+.benchmark-table td {
+  padding: 12px 16px;
+  border: var(--border-thin);
+  white-space: nowrap;
+}
+
+.benchmark-table tr:hover {
+  background: var(--paper);
+  outline: 2px solid var(--ink);
+}
+
+.placeholder-pill {
+  display: inline-block;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  padding: 2px 8px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  box-shadow: 2px 2px 0px var(--ink);
+}
+
+.placeholder-pill.inverted {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* --------------------------------------------------------------------------
+   TELEMETRY CONTROL PANEL & JSON DROP
+   -------------------------------------------------------------------------- */
+.telemetry-controls {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+@media (max-width: 900px) {
+  .telemetry-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+.telemetry-dropzone {
+  border: 3px dashed var(--ink);
+  padding: 28px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--paper);
+  transition: all 0.15s ease;
+}
+
+.telemetry-dropzone:hover, .telemetry-dropzone.dragover {
+  background: var(--paper);
+  border-style: solid;
+  box-shadow: var(--shadow-brutal-sm);
+  transform: translate(-2px, -2px);
+}
+
+.dropzone-title {
+  font-family: var(--font-header);
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.dropzone-desc {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+/* Action Buttons */
+.btn-brutal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-header);
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  padding: 8px 18px;
+  background: var(--paper);
+  color: var(--ink);
+  border: var(--border-medium);
+  box-shadow: var(--shadow-brutal-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.btn-brutal:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--ink);
+}
+
+.btn-brutal:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-active);
+}
+
+.btn-brutal.inverted {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* --------------------------------------------------------------------------
+   TAB CONTROLLER
+   -------------------------------------------------------------------------- */
+.tabs-header {
+  display: flex;
+  border-bottom: var(--border-medium);
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  font-family: var(--font-header);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  padding: 6px 16px;
+  background: var(--paper);
+  border: var(--border-thin);
+  border-bottom: none;
+  cursor: pointer;
+  position: relative;
+  top: 2px;
+}
+
+.tab-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+  border: var(--border-thin);
+  border-bottom: var(--border-thin);
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   TERMINAL REPRODUCTION SNIPPET BOX
+   -------------------------------------------------------------------------- */
+.terminal-card {
+  border: var(--border-thick);
+  background: var(--paper);
+  box-shadow: var(--shadow-brutal-sm);
+  margin-top: 20px;
+}
+
+.terminal-header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-header);
+  font-size: 1rem;
+}
+
+.terminal-body {
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  background: var(--paper);
+}
+
+.terminal-cmd {
+  display: block;
+  padding: 8px 12px;
+  background: var(--paper);
+  border: var(--border-thin);
+  margin: 6px 0;
+  user-select: all;
+  box-shadow: 2px 2px 0px var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   TECHNICAL PROSE GRIDS
+   -------------------------------------------------------------------------- */
+.prose-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 16px 0;
+}
+
+@media (max-width: 900px) {
+  .prose-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fact-item {
+  border: var(--border-thin);
+  padding: 18px;
+  background: var(--paper);
+  box-shadow: var(--shadow-brutal-sm);
+}
+
+.fact-item h5 {
+  font-family: var(--font-header);
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  border-bottom: var(--border-hairline);
+  padding-bottom: 4px;
+}
+
+.fact-item p, .fact-item ul {
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.fact-item ul {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.fact-item li {
+  margin-bottom: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE RESPONSIVENESS & DRAWER
+   -------------------------------------------------------------------------- */
+.mobile-topbar {
+  display: none;
+  background: var(--paper);
+  border-bottom: var(--border-thick);
+  padding: 12px 20px;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+@media (max-width: 900px) {
+  .mobile-topbar {
+    display: flex;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 60px;
+    left: -320px;
+    height: calc(100vh - 60px);
+    transition: left 0.2s ease-in-out;
+    box-shadow: var(--shadow-brutal);
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .main-content {
+    max-width: 100vw;
+    padding: 20px;
+  }
+}
+
+/* Copy Toast */
+.copy-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 10px 20px;
+  font-family: var(--font-header);
+  font-size: 1.1rem;
+  border: 3px solid var(--paper);
+  box-shadow: var(--shadow-brutal);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  z-index: 1000;
+}
+
+.copy-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Print Styles */
+@media print {
+  .sidebar, .mobile-topbar, .btn-brutal, .telemetry-controls, .tabs-header {
+    display: none !important;
+  }
+  .main-content {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .panel {
+    box-shadow: none !important;
+    border: 2px solid #000 !important;
+    page-break-inside: avoid;
+    margin-bottom: 20px;
+  }
+}

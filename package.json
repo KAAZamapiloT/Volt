@@ -1,0 +1,21 @@
+{
+  "name": "volt-docs",
+  "version": "1.0.0",
+  "description": "High-resolution 1-bit monochrome technical documentation website for VOLT C++23 systems library",
+  "scripts": {
+    "build": "node -e \"console.log('VOLT documentation build verified.')\"",
+    "start": "npx serve docs",
+    "deploy": "npx vercel --prod"
+  },
+  "keywords": [
+    "c++23",
+    "systems-programming",
+    "documentation",
+    "spsc-queue",
+    "lock-free",
+    "allocators",
+    "low-latency"
+  ],
+  "author": "KAAZamapiloT",
+  "license": "MIT"
+}

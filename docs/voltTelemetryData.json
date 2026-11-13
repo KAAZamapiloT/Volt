@@ -1,0 +1,87 @@
+{
+  "$schema": "https://raw.githubusercontent.com/google/benchmark/main/docs/tools.md",
+  "meta": {
+    "title": "VOLT C++23 Telemetry Dataset",
+    "verification_policy": "STRICT_ANTI_HALLUCINATION_GUARDRAIL",
+    "disclaimer": "DISCLAIMER: Zero metrics are fabricated. All telemetry metrics must be generated through reproducible local execution of Google Benchmark binaries compiled with `-std=c++23 -O3 -march=native -DNDEBUG`. Values below remain explicit TBD_RUN_GBENCH placeholders until populated by authentic host hardware measurements."
+  },
+  "environment_specification": {
+    "target_cpu_model": "TBD_RUN_GBENCH [e.g. AMD Ryzen 9 7950X 16-Core / Intel Core i9-14900K]",
+    "cpu_architecture": "x86-64-v3 / x86-64-v4",
+    "l1_data_cache_size": "32 KiB / 48 KiB per core (64-byte line granularity)",
+    "l2_cache_size": "1024 KiB / 2048 KiB per core",
+    "l3_cache_size": "32 MiB - 96 MiB shared LLC",
+    "compiler": "g++ 14+ / clang++ 18+ (C++23 standard support)",
+    "compiler_flags": "-std=c++23 -O3 -march=native -DNDEBUG -fno-omit-frame-pointer -fstrict-aliasing",
+    "os_kernel": "Linux 6.8+ (x86_64, isolcpus=2,3, CPU governor=performance) or Windows 11 23H2 (Realtime Priority)",
+    "reproduction_command": "perf stat -e cache-misses,cache-references,cycles,instructions,L1-dcache-load-misses ./volt_benchmarks --benchmark_filter=SPSC --benchmark_format=json"
+  },
+  "benchmarks": [
+    {
+      "name": "BM_Volt_SPSCQueueStatic_PushPop_2Thread_Pinned",
+      "iterations": "TBD_RUN_GBENCH",
+      "real_time": "TBD_RUN_GBENCH",
+      "cpu_time": "TBD_RUN_GBENCH",
+      "time_unit": "ns",
+      "items_per_second": "TBD_RUN_GBENCH",
+      "cache_misses_per_op": "TBD_RUN_GBENCH",
+      "l1_invalidation_cycles": "TBD_RUN_GBENCH",
+      "status": "AWAITING_LOCAL_RUN"
+    },
+    {
+      "name": "BM_StdMutexQueue_PushPop_2Thread_Pinned",
+      "iterations": "TBD_RUN_GBENCH",
+      "real_time": "TBD_RUN_GBENCH",
+      "cpu_time": "TBD_RUN_GBENCH",
+      "time_unit": "ns",
+      "items_per_second": "TBD_RUN_GBENCH",
+      "cache_misses_per_op": "TBD_RUN_GBENCH",
+      "l1_invalidation_cycles": "TBD_RUN_GBENCH",
+      "status": "AWAITING_LOCAL_RUN"
+    },
+    {
+      "name": "BM_Volt_LinearAllocator_BumpAndReset_50K",
+      "iterations": "TBD_RUN_GBENCH",
+      "real_time": "TBD_RUN_GBENCH",
+      "cpu_time": "TBD_RUN_GBENCH",
+      "time_unit": "ns",
+      "items_per_second": "TBD_RUN_GBENCH",
+      "cache_misses_per_op": "TBD_RUN_GBENCH",
+      "l1_invalidation_cycles": "TBD_RUN_GBENCH",
+      "status": "AWAITING_LOCAL_RUN"
+    },
+    {
+      "name": "BM_StdMallocFree_IndividualChunks_50K",
+      "iterations": "TBD_RUN_GBENCH",
+      "real_time": "TBD_RUN_GBENCH",
+      "cpu_time": "TBD_RUN_GBENCH",
+      "time_unit": "ns",
+      "items_per_second": "TBD_RUN_GBENCH",
+      "cache_misses_per_op": "TBD_RUN_GBENCH",
+      "l1_invalidation_cycles": "TBD_RUN_GBENCH",
+      "status": "AWAITING_LOCAL_RUN"
+    },
+    {
+      "name": "BM_Volt_PoolAllocator_Churn50Percent_15K",
+      "iterations": "TBD_RUN_GBENCH",
+      "real_time": "TBD_RUN_GBENCH",
+      "cpu_time": "TBD_RUN_GBENCH",
+      "time_unit": "ns",
+      "items_per_second": "TBD_RUN_GBENCH",
+      "cache_misses_per_op": "TBD_RUN_GBENCH",
+      "l1_invalidation_cycles": "TBD_RUN_GBENCH",
+      "status": "AWAITING_LOCAL_RUN"
+    },
+    {
+      "name": "BM_StdHeap_Churn50Percent_15K",
+      "iterations": "TBD_RUN_GBENCH",
+      "real_time": "TBD_RUN_GBENCH",
+      "cpu_time": "TBD_RUN_GBENCH",
+      "time_unit": "ns",
+      "items_per_second": "TBD_RUN_GBENCH",
+      "cache_misses_per_op": "TBD_RUN_GBENCH",
+      "l1_invalidation_cycles": "TBD_RUN_GBENCH",
+      "status": "AWAITING_LOCAL_RUN"
+    }
+  ]
+}
