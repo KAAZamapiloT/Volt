@@ -260,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupCopyButtons();
   setupCodeLineHover();
   setupMobileDrawer();
+  setupApiSearch();
 });
 
 /**
@@ -486,3 +487,41 @@ window.switchDocTab = function(tabGroup, targetId) {
     }
   });
 };
+
+/**
+ * Live Interactive API Reference Search / Filter
+ */
+function setupApiSearch() {
+  const searchInput = document.getElementById("api-search-input");
+  if (!searchInput) return;
+
+  searchInput.addEventListener("input", (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    const classCards = document.querySelectorAll(".api-class-card");
+
+    classCards.forEach((card) => {
+      let anyMatch = false;
+      const methods = card.querySelectorAll(".api-method-item");
+
+      methods.forEach((method) => {
+        const text = method.innerText.toLowerCase();
+        if (!query || text.includes(query)) {
+          method.style.display = "block";
+          anyMatch = true;
+        } else {
+          method.style.display = "none";
+        }
+      });
+
+      const className = card.querySelector(".api-class-header").innerText.toLowerCase();
+      if (!query || className.includes(query) || anyMatch) {
+        card.style.display = "block";
+        if (className.includes(query) && !anyMatch) {
+          methods.forEach((m) => (m.style.display = "block"));
+        }
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
+}

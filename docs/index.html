@@ -14,7 +14,12 @@
       <span class="heading-inverted" style="font-size: 1.1rem; padding: 2px 8px;">VOLT</span>
       <span style="font-family: var(--font-header); font-size: 1.1rem; letter-spacing: 0.05em;">C++23 SYSTEMS ARCHITECTURE</span>
     </div>
-    <button id="mobile-menu-btn" class="btn-brutal" style="padding: 4px 10px; font-size: 0.95rem;">[INDEX // MENU]</button>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a href="https://github.com/KAAZamapiloT/Volt" target="_blank" rel="noopener noreferrer" class="github-badge-btn" style="padding: 3px 8px; font-size: 0.85rem;">
+        GITHUB
+      </a>
+      <button id="mobile-menu-btn" class="btn-brutal" style="padding: 4px 10px; font-size: 0.95rem;">[INDEX // MENU]</button>
+    </div>
   </header>
 
   <div class="app-container">
@@ -29,6 +34,18 @@
         <h1 class="brand-title">VOLT</h1>
         <div class="brand-tagline">
           LOW-LATENCY SYSTEMS &amp; MECHANICAL ARCHITECTURE
+        </div>
+
+        <!-- GitHub Repository Direct Access Badge -->
+        <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 8px;">
+          <a href="https://github.com/KAAZamapiloT/Volt" target="_blank" rel="noopener noreferrer" class="github-badge-btn" style="justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            <span>GITHUB // REPO</span>
+          </a>
+          <button class="btn-brutal" data-copy="#git-clone-command" style="font-size: 0.75rem; padding: 4px 8px; justify-content: center;">
+            COPY CLONE COMMAND
+          </button>
+          <span id="git-clone-command" style="display: none;">git clone https://github.com/KAAZamapiloT/Volt.git</span>
         </div>
       </div>
 
@@ -68,6 +85,18 @@
           <span class="nav-title">VERIFIED BENCHMARKS</span>
           <span class="nav-subtext">Hardware Telemetry &amp; Profiling Suite</span>
         </a>
+
+        <a href="#chapter-07" class="nav-item">
+          <span class="nav-number">CHAPTER // 07</span>
+          <span class="nav-title">API REFERENCE</span>
+          <span class="nav-subtext">Complete Signatures, Contracts &amp; Specs</span>
+        </a>
+
+        <a href="#chapter-08" class="nav-item">
+          <span class="nav-number">CHAPTER // 08</span>
+          <span class="nav-title">ROADMAP &amp; FUTURE WORK</span>
+          <span class="nav-subtext">Work-Stealing, NUMA &amp; Lock-Free Deques</span>
+        </a>
       </nav>
 
       <div class="sidebar-footer">
@@ -81,6 +110,29 @@
 
     <!-- Main Content Area -->
     <main class="main-content">
+
+      <!-- Repository Quick Banner -->
+      <div style="border: var(--border-thick); background: var(--paper); box-shadow: var(--shadow-brutal-sm); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
+            <span class="badge-manga inverted">GITHUB REPOSITORY</span>
+            <span class="badge-manga">KAAZamapiloT/Volt</span>
+            <span class="badge-manga">MIT LICENSE</span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.85rem;">
+            Header-only C++23 systems library: <code>#include &lt;volt/volt.hpp&gt;</code>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="https://github.com/KAAZamapiloT/Volt" target="_blank" rel="noopener noreferrer" class="github-badge-btn">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            <span>VIEW ON GITHUB</span>
+          </a>
+          <button class="btn-brutal" data-copy="#git-clone-command" style="font-size: 0.95rem;">
+            CLONE REPO
+          </button>
+        </div>
+      </div>
 
       <!-- CHAPTER 01: SPSC RING BUFFER -->
       <section id="chapter-01" class="doc-chapter-section">
@@ -978,6 +1030,504 @@
               <span style="font-weight: 700; font-style: italic;"># 2. Execute with hardware performance counters (cache-miss &amp; cycle profiling)</span>
               <code class="terminal-cmd">perf stat -e cache-misses,cache-references,cycles,instructions,L1-dcache-load-misses ./volt_benchmarks</code>
             </div>
+          </div>
+
+        </article>
+
+      </section>
+
+      <!-- CHAPTER 07: COMPLETE API REFERENCE -->
+      <section id="chapter-07" class="doc-chapter-section">
+        
+        <article class="panel">
+          <div class="panel-header-strip">
+            <div class="panel-title-group">
+              <span class="panel-number">07</span>
+              <h2 class="panel-main-title">COMPLETE API REFERENCE</h2>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <span class="badge-manga inverted">STANDARDS CONTRACT</span>
+              <span class="badge-manga">NOEXCEPT &amp; COMPLEXITY</span>
+              <span class="badge-manga">C++23 CONCEPTS</span>
+            </div>
+          </div>
+
+          <p style="margin-bottom: 20px;">
+            Full interface specifications, template constraints, thread-safety models, and asymptotic complexity guarantees across the Volt library.
+          </p>
+
+          <!-- Interactive API Live Search Bar -->
+          <div class="api-search-container">
+            <input type="text" id="api-search-input" class="api-search-input" placeholder="Quick Search API Methods (e.g. push, allocate, mark, swap_pop, submit, capacity)..." spellcheck="false">
+          </div>
+
+          <!-- Class Card 1: SPSCQueueStatic -->
+          <div class="api-class-card">
+            <div class="api-class-header">
+              <div>
+                <h3 style="font-size: 1.5rem;">volt::SPSCQueueStatic&lt;typename T, std::size_t Cap&gt;</h3>
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: bold;">requires (Cap &gt; 0 &amp;&amp; std::has_single_bit(Cap))</span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <span class="badge-manga inverted">WAIT-FREE SPSC</span>
+                <span class="badge-manga">CACHE-ISOLATED</span>
+              </div>
+            </div>
+
+            <div class="api-method-list">
+              <div class="api-method-item">
+                <code class="api-method-sig">bool push(const T&amp; value) noexcept(std::is_nothrow_copy_constructible_v&lt;T&gt;)</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(1)</span>
+                  <span class="badge-manga">Thread Safety: Producer Only</span>
+                  <span class="badge-manga inverted">Zero Allocation</span>
+                </div>
+                <p class="api-desc">
+                  Copies <code>value</code> into the ring buffer at the current <code>tail_</code> position. Uses relaxed index loads and publishes the element to the consumer with <code>std::memory_order_release</code>. Returns <code>false</code> immediately if the buffer is full without blocking.
+                </p>
+              </div>
+
+              <div class="api-method-item">
+                <code class="api-method-sig">bool push(T&amp;&amp; value) noexcept(std::is_nothrow_move_constructible_v&lt;T&gt;)</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(1)</span>
+                  <span class="badge-manga">Thread Safety: Producer Only</span>
+                </div>
+                <p class="api-desc">
+                  Moves <code>value</code> into the ring buffer slot. Wait-free and non-blocking.
+                </p>
+              </div>
+
+              <div class="api-method-item">
+                <code class="api-method-sig">template&lt;class... Args&gt; bool emplace(Args&amp;&amp;... args)</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(1)</span>
+                  <span class="badge-manga">In-Place Construction</span>
+                </div>
+                <p class="api-desc">
+                  Constructs the element in-place via <code>std::construct_at</code> directly into uninitialized ring storage.
+                </p>
+              </div>
+
+              <div class="api-method-item">
+                <code class="api-method-sig">bool pop(T&amp; out) noexcept(std::is_nothrow_move_assignable_v&lt;T&gt;)</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(1)</span>
+                  <span class="badge-manga">Thread Safety: Consumer Only</span>
+                  <span class="badge-manga inverted">Destructive Move</span>
+                </div>
+                <p class="api-desc">
+                  Moves the oldest element from the queue into <code>out</code>, calls <code>std::destroy_at</code> on the slot, and advances <code>head_</code> with <code>std::memory_order_release</code>. Returns <code>false</code> if empty.
+                </p>
+              </div>
+
+              <div class="api-method-item">
+                <code class="api-method-sig">std::size_t push_bulk(std::span&lt;const T&gt; values)</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(K)</span>
+                  <span class="badge-manga">Burst Synchronization</span>
+                </div>
+                <p class="api-desc">
+                  Transfers multiple elements in a single contiguous batch, executing only one release store for the entire batch. Returns the number of elements pushed.
+                </p>
+              </div>
+
+              <div class="api-method-item">
+                <code class="api-method-sig">std::size_t pop_bulk(std::span&lt;T&gt; output)</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(K)</span>
+                  <span class="badge-manga">Burst Synchronization</span>
+                </div>
+                <p class="api-desc">
+                  Pops up to <code>output.size()</code> available elements in one atomic index update.
+                </p>
+              </div>
+
+              <div class="api-method-item">
+                <code class="api-method-sig">[[nodiscard]] std::size_t size() const noexcept</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(1)</span>
+                  <span class="badge-manga">Atomic Subtraction</span>
+                </div>
+                <p class="api-desc">
+                  Returns approximate queue occupancy: <code>tail_.load() - head_.load()</code>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Class Card 2: LinearAllocator -->
+          <div class="api-class-card">
+            <div class="api-class-header">
+              <div>
+                <h3 style="font-size: 1.5rem;">volt::LinearAllocator</h3>
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: bold;">Contiguous monotonic arena</span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <span class="badge-manga inverted">ZERO LOCKS</span>
+                <span class="badge-manga">O(1) REWIND</span>
+              </div>
+            </div>
+
+            <div class="api-method-list">
+              <div class="api-method-item">
+                <code class="api-method-sig">void* allocate(std::size_t size, std::size_t alignment = alignof(std::max_align_t)) noexcept</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(1)</span>
+                  <span class="badge-manga">Zero Search</span>
+                  <span class="badge-manga inverted">Hardware Aligned</span>
+                </div>
+                <p class="api-desc">
+                  Bumps <code>current_</code> pointer forward by <code>size</code> after satisfying power-of-two <code>alignment</code>. Returns <code>nullptr</code> if capacity is exceeded.
+                </p>
+              </div>
+
+              <div class="api-method-item">
+                <code class="api-method-sig">void reset() noexcept</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(1)</span>
+                  <span class="badge-manga">Bulk Deallocation</span>
+                </div>
+                <p class="api-desc">
+                  Instantaneously reclaims all arena memory by setting <code>current_ = begin_</code>. Zero per-object destruction overhead.
+                </p>
+              </div>
+
+              <div class="api-method-item">
+                <code class="api-method-sig">[[nodiscard]] Marker mark() const noexcept</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(1)</span>
+                </div>
+                <p class="api-desc">
+                  Captures a snapshot of the current allocation cursor for subsequent scoped rollbacks.
+                </p>
+              </div>
+
+              <div class="api-method-item">
+                <code class="api-method-sig">void rewind(Marker marker) noexcept</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(1)</span>
+                  <span class="badge-manga">Scoped Free</span>
+                </div>
+                <p class="api-desc">
+                  Rolls back <code>current_</code> to a previous <code>Marker</code>. All allocations performed after the marker was created are immediately reclaimed.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Class Card 3: PoolAllocator -->
+          <div class="api-class-card">
+            <div class="api-class-header">
+              <div>
+                <h3 style="font-size: 1.5rem;">volt::PoolAllocator&lt;typename T, std::size_t Capacity&gt;</h3>
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: bold;">Embedded intrusive free-list</span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <span class="badge-manga inverted">O(1) ACQUIRE</span>
+                <span class="badge-manga">O(1) RELEASE</span>
+              </div>
+            </div>
+
+            <div class="api-method-list">
+              <div class="api-method-item">
+                <code class="api-method-sig">T* allocate() noexcept</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(1)</span>
+                  <span class="badge-manga">Zero Loop</span>
+                </div>
+                <p class="api-desc">
+                  Pops the index at <code>free_head_</code> and returns a pointer to the slot. If pool is exhausted, returns <code>nullptr</code>.
+                </p>
+              </div>
+
+              <div class="api-method-item">
+                <code class="api-method-sig">void deallocate(T* ptr) noexcept</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(1)</span>
+                </div>
+                <p class="api-desc">
+                  Calculates slot index from pointer arithmetic and prepends the slot to <code>free_head_</code>. Zero search loop overhead.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Class Card 4: BuddyAllocator -->
+          <div class="api-class-card">
+            <div class="api-class-header">
+              <div>
+                <h3 style="font-size: 1.5rem;">volt::BuddyAllocator</h3>
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: bold;">Binary tree power-of-two memory manager</span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <span class="badge-manga inverted">XOR BUDDY</span>
+                <span class="badge-manga">COALESCING</span>
+              </div>
+            </div>
+
+            <div class="api-method-list">
+              <div class="api-method-item">
+                <code class="api-method-sig">void* allocate(std::size_t size)</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(Log N)</span>
+                  <span class="badge-manga">Power-of-Two Split</span>
+                </div>
+                <p class="api-desc">
+                  Finds the smallest available order $\ge \text{size}$. Recursively splits parent blocks into halves until exact target order is reached.
+                </p>
+              </div>
+
+              <div class="api-method-item">
+                <code class="api-method-sig">void deallocate(void* ptr) noexcept</code>
+                <div class="api-meta-pills">
+                  <span class="badge-manga">Complexity: O(Log N)</span>
+                  <span class="badge-manga">Bitwise Coalesce</span>
+                </div>
+                <p class="api-desc">
+                  Computes companion buddy address with bitwise XOR: <code>offset ^ (MinBlockSize &lt;&lt; order)</code>. If the buddy is free, merges them into higher-order parent.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Class Card 5: FastRingBuffer -->
+          <div class="api-class-card">
+            <div class="api-class-header">
+              <div>
+                <h3 style="font-size: 1.5rem;">volt::FastRingBuffer&lt;typename T, std::size_t Cap&gt;</h3>
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: bold;">Branchless circular buffer</span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <span class="badge-manga inverted">1 CYCLE MODULO</span>
+                <span class="badge-manga">ZERO BRANCHES</span>
+              </div>
+            </div>
+
+            <div class="api-method-list">
+              <div class="api-method-item">
+                <code class="api-method-sig">bool push(const T&amp; value)</code>
+                <p class="api-desc">Calculates target position with <code>tail_ &amp; (Cap - 1)</code> and constructs in-place.</p>
+              </div>
+              <div class="api-method-item">
+                <code class="api-method-sig">void pop()</code>
+                <p class="api-desc">Destroys front element and increments <code>head_</code> monotonically.</p>
+              </div>
+              <div class="api-method-item">
+                <code class="api-method-sig">[[nodiscard]] T&amp; front() noexcept</code>
+                <p class="api-desc">Direct reference to front element at <code>head_ &amp; Mask</code>.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Class Card 6: Archetype & ECS -->
+          <div class="api-class-card">
+            <div class="api-class-header">
+              <div>
+                <h3 style="font-size: 1.5rem;">volt::Archetype &amp; volt::ComponentColumn&lt;T&gt;</h3>
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: bold;">Column-oriented ECS storage</span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <span class="badge-manga inverted">SoA SIMD</span>
+                <span class="badge-manga">O(1) REMOVAL</span>
+              </div>
+            </div>
+
+            <div class="api-method-list">
+              <div class="api-method-item">
+                <code class="api-method-sig">template&lt;typename T&gt; void register_column()</code>
+                <p class="api-desc">Allocates a contiguous <code>ComponentColumn&lt;T&gt;</code> for the archetype.</p>
+              </div>
+              <div class="api-method-item">
+                <code class="api-method-sig">void swap_pop(std::size_t row) override</code>
+                <p class="api-desc">Swaps entity at row with the trailing element in $O(1)$ time, maintaining dense contiguous arrays.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Class Card 7: ThreadPool -->
+          <div class="api-class-card">
+            <div class="api-class-header">
+              <div>
+                <h3 style="font-size: 1.5rem;">volt::thread_pool</h3>
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: bold;">Worker thread task dispatcher</span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <span class="badge-manga inverted">CORE PINNING</span>
+                <span class="badge-manga">TASK BARRIER</span>
+              </div>
+            </div>
+
+            <div class="api-method-list">
+              <div class="api-method-item">
+                <code class="api-method-sig">template&lt;typename F, typename... Args&gt; void submit(F&amp;&amp; func, Args&amp;&amp;... args)</code>
+                <p class="api-desc">Enqueues callable task and signals worker threads via condition variable.</p>
+              </div>
+              <div class="api-method-item">
+                <code class="api-method-sig">void wait()</code>
+                <p class="api-desc">Blocks calling thread on barrier until all submitted tasks complete execution.</p>
+              </div>
+            </div>
+          </div>
+
+        </article>
+
+      </section>
+
+      <!-- CHAPTER 08: ROADMAP & PLANNED FUTURE WORK -->
+      <section id="chapter-08" class="doc-chapter-section">
+        
+        <article class="panel">
+          <div class="panel-header-strip">
+            <div class="panel-title-group">
+              <span class="panel-number">08</span>
+              <h2 class="panel-main-title">ROADMAP &amp; PLANNED FUTURE WORK</h2>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <span class="badge-manga inverted">EXPERIMENTAL BACKLOG</span>
+              <span class="badge-manga">HARDWARE-FIRST</span>
+              <span class="badge-manga">EMPIRICAL VALIDATION</span>
+            </div>
+          </div>
+
+          <p style="margin-bottom: 16px;">
+            Drawn directly from the <strong>Volt Experimental Task Backlog</strong> (<code>Volt_Experimental_Task_Backlog.md</code>). Each project represents an empirical systems investigation with explicit hypotheses, baselines, and microarchitectural metrics.
+          </p>
+
+          <div class="roadmap-grid">
+
+            <!-- Item 1: Adaptive Work-Stealing Scheduler -->
+            <div class="roadmap-card">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span class="badge-manga inverted">PROJECT // 01</span>
+                  <span class="badge-manga">IN DEVELOPMENT</span>
+                </div>
+                <h4>ADAPTIVE WORK-STEALING SCHEDULER</h4>
+                <p class="roadmap-hypo">
+                  <strong>HYPOTHESIS:</strong> Dynamic tracking of victim selection, steal failures, queue depth, and contention signals will outperform static heuristic schedulers on bursty, asymmetric game-engine workloads.
+                </p>
+                <ul class="roadmap-tasks">
+                  <li>[ ] Implement adaptive victim selection</li>
+                  <li>[ ] Add adaptive worker parking &amp; backoff</li>
+                  <li>[ ] Measure p50 / p99 task latency under thread starvation</li>
+                </ul>
+              </div>
+              <div style="border-top: var(--border-thin); padding-top: 8px; font-family: var(--font-mono); font-size: 0.72rem;">
+                TARGET: Low-latency frame-graph scheduling
+              </div>
+            </div>
+
+            <!-- Item 2: Lock-Free Chase-Lev Deque -->
+            <div class="roadmap-card">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span class="badge-manga inverted">PROJECT // 02</span>
+                  <span class="badge-manga">PROTOTYPING</span>
+                </div>
+                <h4>CHASE-LEV LOCK-FREE WORK-STEALING DEQUE</h4>
+                <p class="roadmap-hypo">
+                  <strong>HYPOTHESIS:</strong> A bounded circular Chase-Lev deque with relaxed local LIFO push/pop for the thread owner and lock-free CAS FIFO stealing for remote workers minimizes L1 cache cache-line invalidation cycles.
+                </p>
+                <ul class="roadmap-tasks">
+                  <li>[x] Single-producer LIFO fastpath</li>
+                  <li>[ ] Multi-consumer lock-free CAS steal path</li>
+                  <li>[ ] Dynamic power-of-two buffer resizing</li>
+                </ul>
+              </div>
+              <div style="border-top: var(--border-thin); padding-top: 8px; font-family: var(--font-mono); font-size: 0.72rem;">
+                TARGET: Sub-microsecond task theft
+              </div>
+            </div>
+
+            <!-- Item 3: NUMA-Aware Memory Topologies -->
+            <div class="roadmap-card">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span class="badge-manga inverted">PROJECT // 03</span>
+                  <span class="badge-manga">PLANNED</span>
+                </div>
+                <h4>NUMA-AWARE PER-SOCKET MEMORY ARENAS</h4>
+                <p class="roadmap-hypo">
+                  <strong>HYPOTHESIS:</strong> Pinning linear memory arenas to specific NUMA domain nodes eliminates inter-socket QPI/UPI interconnect bus stalls during multi-threaded physics simulations.
+                </p>
+                <ul class="roadmap-tasks">
+                  <li>[ ] Linux <code>mbind()</code> and <code>set_mempolicy()</code> hooks</li>
+                  <li>[ ] Thread-local arena cache replenishment</li>
+                  <li>[ ] Remote node access penalty profiler</li>
+                </ul>
+              </div>
+              <div style="border-top: var(--border-thin); padding-top: 8px; font-family: var(--font-mono); font-size: 0.72rem;">
+                TARGET: Dual-socket server architectures
+              </div>
+            </div>
+
+            <!-- Item 4: Epoch-Based Reclamation (EBR) -->
+            <div class="roadmap-card">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span class="badge-manga inverted">PROJECT // 04</span>
+                  <span class="badge-manga">PLANNED</span>
+                </div>
+                <h4>EPOCH-BASED RECLAMATION (EBR) &amp; HAZARD PTRS</h4>
+                <p class="roadmap-hypo">
+                  <strong>HYPOTHESIS:</strong> 3-epoch memory reclamation allows dynamic lock-free containers (MPSC/MPMC queues, skip lists) to reclaim deleted nodes safely with zero atomic read-side overhead.
+                </p>
+                <ul class="roadmap-tasks">
+                  <li>[ ] Global atomic epoch counter</li>
+                  <li>[ ] Thread-local retired node limbos</li>
+                  <li>[ ] Hazard pointer fallback for stalled threads</li>
+                </ul>
+              </div>
+              <div style="border-top: var(--border-thin); padding-top: 8px; font-family: var(--font-mono); font-size: 0.72rem;">
+                TARGET: Dynamic lock-free trees &amp; skip lists
+              </div>
+            </div>
+
+            <!-- Item 5: SIMD Robin Hood Hash Map -->
+            <div class="roadmap-card">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span class="badge-manga inverted">PROJECT // 05</span>
+                  <span class="badge-manga">RESEARCH</span>
+                </div>
+                <h4>SIMD-ACCELERATED ROBIN HOOD HASH MAP</h4>
+                <p class="roadmap-hypo">
+                  <strong>HYPOTHESIS:</strong> Grouping 16 1-byte hash fingerprints into contiguous SSE2/AVX2 control vectors enables 16-bucket parallel probing with single-instruction masked comparison.
+                </p>
+                <ul class="roadmap-tasks">
+                  <li>[ ] 1-byte control byte array with AVX2 <code>_mm256_cmpeq_epi8</code></li>
+                  <li>[ ] Backward-shift Robin Hood displacement algorithm</li>
+                  <li>[ ] Zero-overhead cache-line aligned bucket chunks</li>
+                </ul>
+              </div>
+              <div style="border-top: var(--border-thin); padding-top: 8px; font-family: var(--font-mono); font-size: 0.72rem;">
+                TARGET: 100M+ lookups/sec key-value lookups
+              </div>
+            </div>
+
+            <!-- Item 6: C++23 std::generator Coroutines -->
+            <div class="roadmap-card">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span class="badge-manga inverted">PROJECT // 06</span>
+                  <span class="badge-manga">EXPLORATORY</span>
+                </div>
+                <h4>C++23 COROUTINE QUERY STREAMS (std::generator)</h4>
+                <p class="roadmap-hypo">
+                  <strong>HYPOTHESIS:</strong> C++23 <code>std::generator</code> produces compiler-inlined coroutine query iterations across archetype tables without heap allocation frames.
+                </p>
+                <ul class="roadmap-tasks">
+                  <li>[ ] Benchmark <code>std::generator</code> vs custom lambda iterators</li>
+                  <li>[ ] Verify HALO (Heap Allocation Elision Optimization)</li>
+                  <li>[ ] SIMD-vectorized chunk yielding</li>
+                </ul>
+              </div>
+              <div style="border-top: var(--border-thin); padding-top: 8px; font-family: var(--font-mono); font-size: 0.72rem;">
+                TARGET: Ergonomic zero-overhead ECS iterations
+              </div>
+            </div>
+
           </div>
 
         </article>
