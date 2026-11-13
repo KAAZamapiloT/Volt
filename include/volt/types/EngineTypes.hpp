@@ -1,8 +1,8 @@
 #pragma once
 
-
-#include<cstdint>
-#include<functional>
+#include <cstdint>
+#include <cstddef>
+#include <functional>
 
 namespace volt {
 	using u8 = std::uint8_t;
@@ -16,7 +16,7 @@ namespace volt {
 	using f32 = float;
 	using f64 = double;
 	using usize = std::size_t;
-	using Entity = u32;
+	using EntityID = u32;
 	using ComponentType = u32;
 	using ComponentMask = u64;
 	using Marker = std::byte*;

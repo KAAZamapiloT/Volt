@@ -51,6 +51,30 @@ if(VOLT_BUILD_TESTS)
         COMMAND volt_tests
     )
 
+    # ECS GoogleTest Target
+    add_executable(volt_ecs_gtest
+        tests/ecs_gtest.cpp
+    )
+
+    target_link_libraries(volt_ecs_gtest
+        PRIVATE Volt
+    )
+
+    target_include_directories(volt_ecs_gtest
+        PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests
+    )
+
+    find_package(GTest QUIET)
+    if(GTest_FOUND)
+        target_link_libraries(volt_ecs_gtest PRIVATE GTest::gtest GTest::gtest_main)
+    endif()
+
+    add_test(
+        NAME volt_ecs_gtest
+        COMMAND volt_ecs_gtest
+    )
+
 endif()
 
 # Benchmarks
