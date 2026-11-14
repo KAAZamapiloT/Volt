@@ -139,6 +139,24 @@ h1, h2, h3, h4, .panel-title, .manga-heading {
   display: flex;
   min-height: 100vh;
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 850;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
 }
 
 /* Sidebar (Left Chapter Index) */
@@ -261,12 +279,15 @@ h1, h2, h3, h4, .panel-title, .manga-heading {
 
 /* Main Content Area */
 .main-content {
-  flex: 1;
-  max-width: calc(100vw - 320px);
+  flex: 1 1 0%;
+  min-width: 0; /* CRITICAL: prevents flex child from expanding beyond viewport */
+  width: 100%;
+  max-width: calc(100% - 320px);
   padding: 40px;
   display: flex;
   flex-direction: column;
   gap: 48px;
+  box-sizing: border-box;
 }
 
 /* --------------------------------------------------------------------------
@@ -353,16 +374,19 @@ h1, h2, h3, h4, .panel-title, .manga-heading {
    -------------------------------------------------------------------------- */
 .svg-diagram-wrapper {
   width: 100%;
+  max-width: 100%;
   border: var(--border-thin);
   background: var(--paper);
   padding: 12px;
   margin: 12px 0;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 svg.manga-vector {
   display: block;
   width: 100%;
+  min-width: 480px;
   height: auto;
   shape-rendering: geometricPrecision;
   vector-effect: non-scaling-stroke;
@@ -557,6 +581,7 @@ svg.manga-vector {
 
 .benchmark-table {
   width: 100%;
+  min-width: 680px;
   border-collapse: collapse;
   font-family: var(--font-mono);
   font-size: 0.85rem;
@@ -855,106 +880,229 @@ svg.manga-vector {
 
   .sidebar {
     position: fixed;
-    top: 60px;
-    left: -320px;
-    height: calc(100vh - 60px);
-    transition: left 0.2s ease-in-out;
-    box-shadow: var(--shadow-brutal);
+    top: 56px;
+    left: -330px;
+    width: min(320px, 86vw);
+    min-width: unset;
+    height: calc(100vh - 56px);
+    transition: left 0.25s cubic-bezier(0.1, 0.9, 0.2, 1);
+    box-shadow: 8px 0px 0px var(--ink);
+    z-index: 900;
   }
 
   .sidebar.open {
     left: 0;
   }
 
+  .sidebar-backdrop.active {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .main-content {
-    max-width: 100vw;
-    padding: 20px;
+    max-width: 100%;
+    width: 100%;
+    padding: 24px 16px;
+    gap: 32px;
+  }
+
+  .prose-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-strip-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .main-content {
+    padding: 16px 10px;
+    gap: 24px;
+  }
+
+  .panel {
+    padding: 18px 14px;
+    box-shadow: 4px 4px 0px var(--ink);
+  }
+
+  .panel-header-strip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .panel-main-title {
+    font-size: 1.45rem;
+  }
+
+  .quick-start-panel {
+    padding: 18px 14px;
+    box-shadow: 4px 4px 0px var(--ink);
+  }
+
+  .filter-controls {
+    gap: 6px;
+  }
+
+  .filter-btn {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+
+  .api-class-card {
+    padding: 18px 14px;
+    border-left-width: 8px;
+    box-shadow: 5px 5px 0px var(--ink);
+  }
+
+  .api-class-header h3 {
+    font-size: 1.35rem;
+  }
+
+  .api-method-item {
+    padding: 14px 12px;
+    border-left-width: 6px;
+  }
+
+  .api-method-sig {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+    margin: -14px -12px 10px -12px;
+  }
+
+  .benchmark-table th, .benchmark-table td {
+    padding: 8px 10px;
+    font-size: 0.78rem;
+  }
+
+  .methodology-grid {
+    grid-template-columns: 1fr;
   }
 }
 
 /* --------------------------------------------------------------------------
-   API REFERENCE STYLES
+   API REFERENCE STYLES (BOLD MANGA BRUTALIST PUNCH CARDS)
    -------------------------------------------------------------------------- */
 .api-search-container {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .api-search-input {
   width: 100%;
-  padding: 12px 18px;
+  padding: 14px 20px;
   font-family: var(--font-mono);
-  font-size: 0.95rem;
-  border: var(--border-thick);
+  font-size: 1rem;
+  font-weight: 700;
+  border: 4px solid var(--ink);
   background: var(--paper);
   color: var(--ink);
-  box-shadow: var(--shadow-brutal-sm);
+  box-shadow: 6px 6px 0px var(--ink);
   outline: none;
   transition: all 0.1s ease;
 }
 
 .api-search-input:focus {
-  box-shadow: var(--shadow-brutal);
+  box-shadow: 9px 9px 0px var(--ink);
   transform: translate(-2px, -2px);
 }
 
 .api-class-card {
-  border: var(--border-thick);
+  border: 4px solid var(--ink);
+  border-left: 12px solid var(--ink);
   background: var(--paper);
-  box-shadow: var(--shadow-brutal);
-  margin-bottom: 28px;
-  padding: 24px;
+  box-shadow: 8px 8px 0px var(--ink);
+  margin-bottom: 36px;
+  padding: 26px;
+  position: relative;
 }
 
 .api-class-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border-bottom: var(--border-medium);
-  padding-bottom: 12px;
-  margin-bottom: 18px;
+  align-items: flex-start;
+  border-bottom: 3px solid var(--ink);
+  padding-bottom: 14px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.api-class-header h3 {
+  font-family: var(--font-mono);
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 4px;
+  word-break: break-all;
 }
 
 .api-method-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .api-method-item {
-  border: var(--border-thin);
-  padding: 16px;
+  border: 3px solid var(--ink);
+  border-left: 8px solid var(--ink);
+  padding: 18px;
   background: var(--paper);
-  box-shadow: var(--shadow-brutal-sm);
+  box-shadow: 4px 4px 0px var(--ink);
   transition: all 0.1s ease;
 }
 
 .api-method-item:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px var(--ink);
+  box-shadow: 8px 8px 0px var(--ink);
 }
 
 .api-method-sig {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 800;
   display: block;
-  margin-bottom: 8px;
+  background: #f0f0f0;
+  border: 2px solid var(--ink);
+  padding: 10px 14px;
+  margin: -18px -18px 14px -18px;
+  color: var(--ink);
   word-break: break-all;
+  letter-spacing: -0.01em;
+  box-shadow: inset 0 -2px 0 var(--ink);
 }
 
 .api-meta-pills {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin: 6px 0 10px 0;
+  margin: 8px 0 12px 0;
+}
+
+.api-meta-pills .badge-manga {
+  font-weight: 800;
+  border-width: 2px;
+  font-size: 0.78rem;
+  padding: 3px 8px;
 }
 
 .api-desc {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin-top: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #111111;
+  margin-top: 8px;
+}
+
+.api-desc code {
+  font-weight: 800;
+  border-width: 2px;
 }
 
 /* --------------------------------------------------------------------------
@@ -1137,21 +1285,6 @@ svg.manga-vector {
 }
 
 .quick-start-panel h3 {
-  font-family: var(--font-header);
-  font-size: 1.6rem;
-  letter-spacing: 0.05em;
-  margin-bottom: 8px;
-}
-
-.knight-engine-panel {
-  border: var(--border-thick);
-  background: var(--paper);
-  box-shadow: var(--shadow-brutal);
-  padding: 24px;
-  margin-bottom: 36px;
-}
-
-.knight-engine-panel h3 {
   font-family: var(--font-header);
   font-size: 1.6rem;
   letter-spacing: 0.05em;

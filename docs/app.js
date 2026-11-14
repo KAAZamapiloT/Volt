@@ -325,8 +325,10 @@ function setupChapterNavigation() {
 
           // Close mobile drawer if open
           const sidebar = document.querySelector(".sidebar");
+          const backdrop = document.getElementById("sidebar-backdrop");
           if (sidebar && sidebar.classList.contains("open")) {
             sidebar.classList.remove("open");
+            if (backdrop) backdrop.classList.remove("active");
           }
         }
       }
@@ -434,12 +436,40 @@ function setupCodeLineHover() {
 function setupMobileDrawer() {
   const toggleBtn = document.getElementById("mobile-menu-btn");
   const sidebar = document.querySelector(".sidebar");
+  const backdrop = document.getElementById("sidebar-backdrop");
+
+  function closeDrawer() {
+    if (sidebar) sidebar.classList.remove("open");
+    if (backdrop) backdrop.classList.remove("active");
+  }
+
+  function openDrawer() {
+    if (sidebar) sidebar.classList.add("open");
+    if (backdrop) backdrop.classList.add("active");
+  }
 
   if (toggleBtn && sidebar) {
-    toggleBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("open");
+    toggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (sidebar.classList.contains("open")) {
+        closeDrawer();
+      } else {
+        openDrawer();
+      }
     });
   }
+
+  if (backdrop) {
+    backdrop.addEventListener("click", () => {
+      closeDrawer();
+    });
+  }
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 900) {
+      closeDrawer();
+    }
+  });
 }
 
 /**
