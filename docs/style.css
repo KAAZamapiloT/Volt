@@ -1073,3 +1073,173 @@ svg.manga-vector {
     margin-bottom: 20px;
   }
 }
+
+
+/* ==========================================================================
+   SPOT-COLOR EXTENSIONS & ENGINEERING RECORD STYLES
+   ========================================================================== */
+
+/* Status Badges */
+.badge-stable {
+  background: var(--volt-yellow) !important;
+  color: var(--ink) !important;
+  border: var(--border-thin) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em;
+}
+
+.badge-experimental {
+  background: var(--alert-crimson) !important;
+  color: #ffffff !important;
+  border: var(--border-thin) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em;
+}
+
+/* Limitations Box */
+.limitations-box {
+  border: var(--border-medium);
+  border-left: 8px solid var(--alert-crimson);
+  background: var(--paper);
+  padding: 16px 20px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-brutal-sm);
+}
+
+.limitations-box h5 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-header);
+  font-size: 1.15rem;
+  color: var(--alert-crimson);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.limitations-box ul {
+  padding-left: 20px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.limitations-box li {
+  margin-bottom: 6px;
+}
+
+/* Quick Start & Field Validation Panels */
+.quick-start-panel {
+  border: var(--border-thick);
+  background: var(--paper);
+  box-shadow: var(--shadow-brutal);
+  padding: 24px;
+  margin-bottom: 36px;
+}
+
+.quick-start-panel h3 {
+  font-family: var(--font-header);
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.knight-engine-panel {
+  border: var(--border-thick);
+  background: var(--paper);
+  box-shadow: var(--shadow-brutal);
+  padding: 24px;
+  margin-bottom: 36px;
+}
+
+.knight-engine-panel h3 {
+  font-family: var(--font-header);
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+/* Methodology Card */
+.methodology-box {
+  border: var(--border-medium);
+  background: var(--paper);
+  box-shadow: var(--shadow-brutal-sm);
+  padding: 18px 22px;
+  margin-bottom: 24px;
+}
+
+.methodology-box h4 {
+  font-family: var(--font-header);
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  border-bottom: var(--border-hairline);
+  padding-bottom: 4px;
+}
+
+.methodology-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.methodology-item {
+  border: var(--border-hairline);
+  padding: 12px 14px;
+  background: #fafafa;
+}
+
+.methodology-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #444444;
+  margin-bottom: 4px;
+}
+
+.methodology-val {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Non-Goals Box */
+.non-goals-box {
+  border: var(--border-medium);
+  border-left: 8px solid var(--ink);
+  background: #fbfbfb;
+  padding: 18px 22px;
+  margin-top: 24px;
+  box-shadow: var(--shadow-brutal-sm);
+}
+
+.non-goals-box h4 {
+  font-family: var(--font-header);
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.non-goals-box ul {
+  padding-left: 20px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.non-goals-box li {
+  margin-bottom: 6px;
+}
+
+/* Speedup Pill */
+.speedup-pill {
+  display: inline-block;
+  background: var(--volt-yellow);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border: 1px solid var(--ink);
+}

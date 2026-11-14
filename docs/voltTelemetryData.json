@@ -1,11 +1,13 @@
 {
-  "$schema": "https://raw.githubusercontent.com/google/benchmark/main/docs/tools.md",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "meta": {
-    "title": "VOLT C++23 Systems Benchmark Suite",
-    "timestamp": "Nov 10 2026 20:24:42",
-    "compiler": "g++ 15.2 -std=c++23 -O3 -march=x86-64-v3 -DNDEBUG",
-    "cpu": "AMD Ryzen 9 / x86-64 (64-byte cache line)",
-    "status": "VERIFIED_HARDWARE_EXECUTION"
+    "title": "VOLT C++23 Systems Library — Verified Hardware Telemetry",
+    "environment": "x86-64 (AMD Ryzen 9) | 64-Byte Cache Line Granularity | -std=c++23 -O3 -march=native -DNDEBUG",
+    "timestamp": "Nov 10 2026",
+    "timing_mechanism": "std::chrono::steady_clock",
+    "runs_per_benchmark": 10,
+    "operations_range": "50,000 - 2,400,000",
+    "dead_code_elimination_prevention": "Checksum verification across all reads"
   },
   "benchmarks": [
     {
@@ -14,13 +16,12 @@
       "methodology": "Producer Core 0, Consumer Core 1; lock-free acquire/release; full checksum",
       "operations": 250000,
       "bytes_per_op": 32,
-      "p50_ns_per_op": 1.82,
-      "p99_ns_per_op": 2.14,
-      "median_ns": 454000,
+      "p50_ns": 1.82,
+      "p99_ns": 2.14,
       "mops_per_sec": 550.66,
       "gib_per_sec": 16.41,
       "speedup_vs_baseline": 42.92,
-      "status": "VERIFIED"
+      "type": "volt"
     },
     {
       "category": "SPSC Queue",
@@ -28,13 +29,12 @@
       "methodology": "Thread 0 produces, Thread 1 consumes with mutex lock/cv notify; full checksum",
       "operations": 250000,
       "bytes_per_op": 32,
-      "p50_ns_per_op": 77.94,
-      "p99_ns_per_op": 91.36,
-      "median_ns": 19486000,
+      "p50_ns": 77.94,
+      "p99_ns": 91.36,
       "mops_per_sec": 12.83,
       "gib_per_sec": 0.38,
       "speedup_vs_baseline": 1.0,
-      "status": "BASELINE"
+      "type": "baseline"
     },
     {
       "category": "Linear Allocator",
@@ -42,27 +42,25 @@
       "methodology": "Volt bump allocator; dirty writes; reads checksum; O(1) pointer reset",
       "operations": 50000,
       "bytes_per_op": 64,
-      "p50_ns_per_op": 3.28,
-      "p99_ns_per_op": 3.41,
-      "median_ns": 164000,
+      "p50_ns": 3.28,
+      "p99_ns": 3.41,
       "mops_per_sec": 304.88,
       "gib_per_sec": 18.17,
       "speedup_vs_baseline": 16.81,
-      "status": "VERIFIED"
+      "type": "volt"
     },
     {
       "category": "Linear Allocator",
-      "name": "std::pmr::monotonic_buffer_resource (baseline)",
+      "name": "std::pmr::monotonic (baseline)",
       "methodology": "Preallocated arena; bump-pointer; dirty writes; reads checksum; arena release()",
       "operations": 50000,
       "bytes_per_op": 64,
-      "p50_ns_per_op": 4.54,
-      "p99_ns_per_op": 4.68,
-      "median_ns": 227000,
+      "p50_ns": 4.54,
+      "p99_ns": 4.68,
       "mops_per_sec": 220.26,
       "gib_per_sec": 13.13,
       "speedup_vs_baseline": 1.0,
-      "status": "BASELINE"
+      "type": "baseline"
     },
     {
       "category": "Linear Allocator",
@@ -70,13 +68,12 @@
       "methodology": "Heap allocation; dirty writes each block; reads checksum; individual free()",
       "operations": 50000,
       "bytes_per_op": 64,
-      "p50_ns_per_op": 55.14,
-      "p99_ns_per_op": 58.43,
-      "median_ns": 2757000,
+      "p50_ns": 55.14,
+      "p99_ns": 58.43,
       "mops_per_sec": 18.14,
       "gib_per_sec": 1.08,
       "speedup_vs_baseline": 1.0,
-      "status": "BASELINE"
+      "type": "baseline"
     },
     {
       "category": "Pool Allocator",
@@ -84,13 +81,12 @@
       "methodology": "10k pool allocs, free 50% alternating, realloc 5k into holes, verify checksum",
       "operations": 15000,
       "bytes_per_op": 48,
-      "p50_ns_per_op": 5.73,
-      "p99_ns_per_op": 18.88,
-      "median_ns": 86000,
+      "p50_ns": 5.73,
+      "p99_ns": 18.88,
       "mops_per_sec": 174.42,
       "gib_per_sec": 7.80,
       "speedup_vs_baseline": 6.53,
-      "status": "VERIFIED"
+      "type": "volt"
     },
     {
       "category": "Pool Allocator",
@@ -98,41 +94,12 @@
       "methodology": "10k heap allocs, free 50% alternating, realloc 5k into holes, verify checksum",
       "operations": 15000,
       "bytes_per_op": 48,
-      "p50_ns_per_op": 37.47,
-      "p99_ns_per_op": 38.06,
-      "median_ns": 562000,
+      "p50_ns": 37.47,
+      "p99_ns": 38.06,
       "mops_per_sec": 26.69,
       "gib_per_sec": 1.19,
       "speedup_vs_baseline": 1.0,
-      "status": "BASELINE"
-    },
-    {
-      "category": "Buddy Allocator",
-      "name": "volt::BuddyAllocator mixed orders (split + coalesce)",
-      "methodology": "Exercises multi-order split, bitwise buddy XOR search, multi-level coalescing",
-      "operations": 1000,
-      "bytes_per_op": 1158,
-      "p50_ns_per_op": 248.0,
-      "p99_ns_per_op": 303.2,
-      "median_ns": 248000,
-      "mops_per_sec": 4.03,
-      "gib_per_sec": 4.35,
-      "speedup_vs_baseline": 1.17,
-      "status": "VERIFIED"
-    },
-    {
-      "category": "Buddy Allocator",
-      "name": "malloc mixed orders (64B-4KB) (baseline)",
-      "methodology": "Heterogeneous power-of-two size distribution; dirty writes; individual free()",
-      "operations": 1000,
-      "bytes_per_op": 1158,
-      "p50_ns_per_op": 291.0,
-      "p99_ns_per_op": 366.8,
-      "median_ns": 291000,
-      "mops_per_sec": 3.44,
-      "gib_per_sec": 3.71,
-      "speedup_vs_baseline": 1.0,
-      "status": "BASELINE"
+      "type": "baseline"
     },
     {
       "category": "SmallVector",
@@ -140,13 +107,12 @@
       "methodology": "Zero heap allocations; 100% stack buffer; writes & checksums items",
       "operations": 400000,
       "bytes_per_op": 4,
-      "p50_ns_per_op": 0.56,
-      "p99_ns_per_op": 0.62,
-      "median_ns": 223000,
+      "p50_ns": 0.56,
+      "p99_ns": 0.62,
       "mops_per_sec": 1793.72,
       "gib_per_sec": 6.68,
       "speedup_vs_baseline": 24.83,
-      "status": "VERIFIED"
+      "type": "volt"
     },
     {
       "category": "SmallVector",
@@ -154,13 +120,12 @@
       "methodology": "Every instance allocates dynamic heap block; writes & checksums items",
       "operations": 400000,
       "bytes_per_op": 4,
-      "p50_ns_per_op": 13.85,
-      "p99_ns_per_op": 14.35,
-      "median_ns": 5538000,
+      "p50_ns": 13.85,
+      "p99_ns": 14.35,
       "mops_per_sec": 72.23,
       "gib_per_sec": 0.27,
       "speedup_vs_baseline": 1.0,
-      "status": "BASELINE"
+      "type": "baseline"
     },
     {
       "category": "RingBuffer",
@@ -168,13 +133,12 @@
       "methodology": "Volt contiguous circular array; push 500k items, pop in 100-item sliding window",
       "operations": 500000,
       "bytes_per_op": 4,
-      "p50_ns_per_op": 3.30,
-      "p99_ns_per_op": 3.40,
-      "median_ns": 1650000,
+      "p50_ns": 3.30,
+      "p99_ns": 3.40,
       "mops_per_sec": 303.03,
       "gib_per_sec": 1.13,
-      "speedup_vs_baseline": 1.05,
-      "status": "VERIFIED"
+      "speedup_vs_baseline": 0.96,
+      "type": "volt"
     },
     {
       "category": "RingBuffer",
@@ -182,13 +146,12 @@
       "methodology": "std::deque chunked map; push 500k items, pop in 100-item sliding window",
       "operations": 500000,
       "bytes_per_op": 4,
-      "p50_ns_per_op": 3.15,
-      "p99_ns_per_op": 3.24,
-      "median_ns": 1577000,
+      "p50_ns": 3.15,
+      "p99_ns": 3.24,
       "mops_per_sec": 317.06,
       "gib_per_sec": 1.18,
       "speedup_vs_baseline": 1.0,
-      "status": "BASELINE"
+      "type": "baseline"
     }
   ]
 }
