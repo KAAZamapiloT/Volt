@@ -163,15 +163,18 @@ h1, h2, h3, h4, .panel-title, .manga-heading {
 .sidebar {
   width: 320px;
   min-width: 320px;
+  height: 100vh;
+  position: fixed; /* Permanently anchored to viewport: never scrolls away */
+  top: 0;
+  left: 0;
   background: var(--paper);
   border-right: var(--border-thick);
-  position: sticky;
-  top: 0;
-  height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   z-index: 100;
+  box-sizing: border-box;
 }
 
 .sidebar-header {
@@ -221,21 +224,23 @@ h1, h2, h3, h4, .panel-title, .manga-heading {
   border: var(--border-medium);
   background: var(--paper);
   box-shadow: var(--shadow-brutal-sm);
-  transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.08s ease;
+  transition: background-color 0.1s ease, box-shadow 0.1s ease, border-left-width 0.1s ease;
   cursor: pointer;
+  position: relative;
 }
 
 .nav-item:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px var(--ink);
+  background: #fafafa;
+  box-shadow: 4px 4px 0px var(--ink);
 }
 
 .nav-item:active, .nav-item.active {
   background: var(--volt-yellow);
   color: var(--ink);
-  border: var(--border-thick);
-  transform: translate(2px, 2px);
+  border: var(--border-medium);
+  border-left: 8px solid var(--ink); /* High-contrast stationary active indicator */
   box-shadow: var(--shadow-active);
+  transform: none; /* Never shifts or jitters position on scroll */
 }
 
 .nav-item.active .nav-number,
@@ -279,16 +284,14 @@ h1, h2, h3, h4, .panel-title, .manga-heading {
 
 /* Main Content Area */
 .main-content {
-  flex: 1 1 0%;
-  min-width: 0; /* CRITICAL: prevents flex child from expanding beyond viewport */
-  width: 100%;
-  max-width: calc(100% - 320px);
+  margin-left: 320px; /* Offset by fixed sidebar width */
+  width: calc(100% - 320px);
+  min-width: 0;
   padding: 40px;
   display: flex;
   flex-direction: column;
   gap: 48px;
   box-sizing: border-box;
-  overflow-x: hidden;
 }
 
 /* --------------------------------------------------------------------------
@@ -957,6 +960,7 @@ svg.manga-vector {
   }
 
   .main-content {
+    margin-left: 0;
     max-width: 100%;
     width: 100%;
     padding: 24px 16px;

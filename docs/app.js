@@ -290,7 +290,7 @@ function setupFilterButtons() {
  */
 function setupChapterNavigation() {
   const navItems = document.querySelectorAll(".nav-item");
-  const sections = document.querySelectorAll(".doc-chapter-section");
+  const sections = document.querySelectorAll(".doc-chapter-section, .quick-start-panel");
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
