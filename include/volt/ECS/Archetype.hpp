@@ -12,13 +12,28 @@ namespace volt {
 
 class Archetype; // Forward declaration
 
+
+/// <summary>
+///  stores a pointer to Archetype and it will be used to know which archetype an entity belongs to in the array of archetypes
+///  row index of array
+///  genreration is to know how many times the entity has been destroyed and recreated
+/// A nullptr means entity is dead 
+/// </summary>
+/// 
 struct EntityRecord {
     Archetype* archetype = nullptr;
     u32 row = 0;
     u32 generation = 0;
-    bool alive = false;
 };
 
+
+/* a componenet colum stores lists od componets */
+/// <summary>
+/// an interface of a component column
+/// move row to -> make a row move to a destiantion column 
+/// swap pop -> swap a row 
+/// size -> return size of coloumn
+/// </summary>
 class IComponentColumn {
 public:
     virtual ~IComponentColumn() = default;
@@ -28,6 +43,14 @@ public:
     [[nodiscard]] virtual std::unique_ptr<IComponentColumn> create_empty() const = 0;
 };
 
+
+
+/// <summary>
+/// a class which implementes interface of componente column 
+///  data -> storage of components of type T 
+///
+/// </summary>
+/// <typeparam name="T"></typeparam>
 template<typename T>
 class ComponentColumn : public IComponentColumn {
 public:
@@ -56,6 +79,15 @@ public:
     }
 };
 
+
+
+
+/// <summary>
+/// Archtype stores -> component masks -> aggerigration of diffrent type of componets -> has a fixed signature
+/// entites->stores entites belonging to particular Archetype
+/// type to column -> amps a type to column that is index of that component type 
+/// columns -> stores index of a compoentne column 
+/// </summary>
 class Archetype {
 public:
     ComponentMask mask = 0;
@@ -105,7 +137,7 @@ public:
         return entities.size() - 1;
     }
 
-    // O(1) swap-and-pop removal. Returns the swapped entity so its record can be updated.
+    
     Entity remove_entity(usize row) {
         assert(row < entities.size());
         for (auto& col : columns) {
